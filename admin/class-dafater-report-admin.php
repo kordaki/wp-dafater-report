@@ -100,8 +100,23 @@ class Dafater_Report_Admin {
 
 	}
 
-	// public function report_menu(){
-	// 	add_menu_page( "نام صفحه", "نام منو", "manage_options", "", callable $callback = '', string $icon_url = '', int|float $position = null )
-	// }
+	public function report_menu(){
+		// main menu
+		add_menu_page( "نام صفحه", "گزارش کار دفاتر", "manage_options", "dafater-report-tool", array($this, "dafater_report_dashboard"), "dashicons-clipboard", 21 );
+
+		// submenus
+		add_submenu_page( "dafater-report-tool", "صفحه دومی", "گزارش ها", "manage_options", "dafater-report-list", array($this, "dafater_report_list"));
+		add_submenu_page( "dafater-report-tool", "صفحه سومی", "تنظیمات", "manage_options", "dafater-report-setting", array($this, "dafater_report_setting"));
+	}
+
+	public function dafater_report_dashboard(){
+		echo "<h3>welcome to the menu ^_^</h3>";
+	}
+	public function dafater_report_list(){
+		echo "<h3>Report List page :X </h3>";
+	}
+	public function dafater_report_setting(){
+		echo "<h3>Setting page :D </h3>";
+	}
 
 }

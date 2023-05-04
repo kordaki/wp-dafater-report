@@ -31,6 +31,22 @@ class Dafater_Report_Activator {
 	 */
 	public static function activate() {
 
+		// create table if it doesn't exist
+		
+
+		// global $wpdb;
+		// $table_name = $wpdb->prefix . 'dafater_report';
+		// $charset_collate = $wpdb->get_charset_collate();
+		// $sql = "CREATE TABLE $table_name (
+		// 	id mediumint(9) NOT NULL AUTO_INCREMENT,
+		// 	created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		// 	updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		// 	deleted_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+		// 	PRIMARY KEY  (id)
+		// ) $charset_collate;";
+		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		// dbDelta( $sql );
+
 	}
 
 }
