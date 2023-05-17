@@ -102,18 +102,68 @@ class Dafater_Report_Admin {
 
 	public function report_menu(){
 		// main menu
-		add_menu_page( "نام صفحه", "گزارش کار دفاتر", "manage_options", "dafater-report-list", array($this, "dafater_report_list"), "dashicons-clipboard", 21 );
+		add_menu_page( "گزارش کار دفاتر", "گزارش کار دفاتر", "manage_options", "dafater-report-list", array($this, "dafater_report_list"), "dashicons-clipboard", 21 );
 
 		// submenus
-		add_submenu_page( "dafater-report-list", "صفحه دومی", "گزارش ها", "manage_options", "dafater-report-list", array($this, "dafater_report_list"));
-		add_submenu_page( "dafater-report-list", "صفحه سومی", "تنظیمات", "manage_options", "dafater-report-setting", array($this, "dafater_report_setting"));
+		add_submenu_page( "dafater-report-list", "گزارش دفاتر", "گزارش ها", "manage_options", "dafater-report-list", array($this, "dafater_report_list"));
+		add_submenu_page( "dafater-report-list", "تنظیمات گزارش ها", "تنظیمات", "manage_options", "dafater-report-setting", array($this, "dafater_report_setting"));
 	}
 
 	public function dafater_report_list(){
+		// get users list from database
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'users';
+		$users = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+		print_r($users);
+
 		echo "<h3>Report List page :X </h3>";
 	}
 	public function dafater_report_setting(){
 		echo "<h3>Setting page :D </h3>";
+	}
+
+	// preparing main db functions
+
+	function get_reports($date){
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'dafater_report';
+		// get_var
+		// get_row
+		// get_column
+		$reports = $wpdb->get_results( 
+			$wpdb->prepare( "SELECT * FROM $table_name WHERE date is lower than %d", $date )
+		);
+	}
+
+	function add_report($userId, $amount, $date){
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'dafater_report';
+		$wpdb->insert( $table_name, array( 
+			"user_id" => $userId,
+			"amount" => $amount,
+			"date" => $date
+		));
+	}
+
+	function update_report($userId, $amount, $date, $reportId){
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'dafater_report';
+		$wpdb->update( $table_name, array( 
+			"user_id" => $userId,
+			"amount" => $amount,
+			"date" => $date
+		), array( "id" => $reportId));
+	}
+
+	function soft_delete_report($reportId){
+		// currentDate needs to be dynamic
+		$currentDate = "abcd";
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'dafater_report';
+		$wpdb->update( $table_name, array( 
+			"deleted_at" => $currentDate,
+		), array( "id" => $reportId));
 	}
 
 }
