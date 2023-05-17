@@ -29,24 +29,34 @@ class Dafater_Report_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
+	public function activate() {
 
-		// create table if it doesn't exist
-		
-
-		// global $wpdb;
+		global $wpdb;
 		// $table_name = $wpdb->prefix . 'dafater_report';
-		// $charset_collate = $wpdb->get_charset_collate();
-		// $sql = "CREATE TABLE $table_name (
-		// 	id mediumint(9) NOT NULL AUTO_INCREMENT,
-		// 	created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		// 	updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		// 	deleted_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		// 	PRIMARY KEY  (id)
-		// ) $charset_collate;";
-		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		// dbDelta( $sql );
+		// check if user table exist
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->wp_tbl_reports()}'" ) == $this->wp_tbl_reports() ) {
+			return;
+		};
 
+		// create table dafater_report with columns id, created_at, updated_at, deleted_at, user_id as foreign key, amount as number, date as date
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			updated_at timestamp DEFAULT NULL,
+			deleted_at timestamp DEFAULT NULL,
+			user_id mediumint(9) NOT NULL,
+			amount longint(9) NOT NULL,
+			date date NOT NULL,
+			PRIMARY KEY  (id),
+			FOREIGN KEY (user_id) REFERENCES wp_users(id)
+		) $charset_collate;";
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+	}
+
+	public function wp_tbl_reports() {
+		global $wpdb;
+		return $wpdb->prefix . 'dafater_report';
 	}
 
 }

@@ -43,7 +43,8 @@ define( 'DAFATER_REPORT_VERSION', '1.0.0' );
  */
 function activate_dafater_report() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dafater-report-activator.php';
-	Dafater_Report_Activator::activate();
+	$activator = new Dafater_Report_Activator;
+	$activator->activate();
 }
 
 /**
