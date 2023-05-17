@@ -34,24 +34,39 @@ class Dafater_Report_Activator {
 		global $wpdb;
 		// $table_name = $wpdb->prefix . 'dafater_report';
 		// check if user table exist
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->wp_tbl_reports()}'" ) == $this->wp_tbl_reports() ) {
-			return;
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->wp_tbl_reports()}'" ) != $this->wp_tbl_reports() ) {
+			// create table dafater_report with columns id, created_at, updated_at, deleted_at, user_id as foreign key, amount as number, date as date
+			$sql = "CREATE TABLE $table_name (
+				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+				updated_at timestamp DEFAULT NULL,
+				deleted_at timestamp DEFAULT NULL,
+				user_id mediumint(9) NOT NULL,
+				amount longint(9) NOT NULL,
+				date date NOT NULL,
+				PRIMARY KEY  (id),
+				FOREIGN KEY (user_id) REFERENCES wp_users(id)
+			) $charset_collate;";
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
 		};
 
-		// create table dafater_report with columns id, created_at, updated_at, deleted_at, user_id as foreign key, amount as number, date as date
-		$sql = "CREATE TABLE $table_name (
-			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-			updated_at timestamp DEFAULT NULL,
-			deleted_at timestamp DEFAULT NULL,
-			user_id mediumint(9) NOT NULL,
-			amount longint(9) NOT NULL,
-			date date NOT NULL,
-			PRIMARY KEY  (id),
-			FOREIGN KEY (user_id) REFERENCES wp_users(id)
-		) $charset_collate;";
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql );
+		// crete page if it does not exist
+		$page_data = $wpdb->get_row(
+			$wpdb->prepare( "SELECT * from '{$wpdb->prefix}'posts where post_name=%s", "dafater_report")
+		);
+		if(empty($page_data)){
+			// create page
+			$post_arr_data = array(
+				"post_title"  => "گزارش عملکرد دفاتر",
+				"post_name" => "dafater_report",
+				"post_status" => "published",
+				"post_author" => 1,
+				"post_content" => "hiiiii report bede baba",
+				"post_type" => "page"
+			);
+			wp_insert_post($post_arr_data);
+		}
 	}
 
 	public function wp_tbl_reports() {
