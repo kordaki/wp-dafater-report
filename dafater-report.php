@@ -53,7 +53,8 @@ function activate_dafater_report() {
  */
 function deactivate_dafater_report() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dafater-report-deactivator.php';
-	Dafater_Report_Deactivator::deactivate();
+	$deactivator = new Dafater_Report_Deactivator;
+	$deactivator->deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_dafater_report' );

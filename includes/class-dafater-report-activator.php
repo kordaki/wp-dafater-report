@@ -30,13 +30,13 @@ class Dafater_Report_Activator {
 	 * @since    1.0.0
 	 */
 	public function activate() {
-
 		global $wpdb;
-		// $table_name = $wpdb->prefix . 'dafater_report';
+		$table_name = $wpdb->prefix . 'dafater_report';
 		// check if user table exist
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$this->wp_tbl_reports()}'" ) != $this->wp_tbl_reports() ) {
 			// create table dafater_report with columns id, created_at, updated_at, deleted_at, user_id as foreign key, amount as number, date as date
-			$sql = "CREATE TABLE $table_name (
+			$charset_collate = "ENGINE=InnoDB DEFAULT CHARSET=latin1";
+			$table_query = "CREATE TABLE '{$table_name}' (
 				id mediumint(9) NOT NULL AUTO_INCREMENT,
 				created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				updated_at timestamp DEFAULT NULL,
@@ -48,19 +48,21 @@ class Dafater_Report_Activator {
 				FOREIGN KEY (user_id) REFERENCES wp_users(id)
 			) $charset_collate;";
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
+			dbDelta( $table_query );
 		};
 
 		// crete page if it does not exist
+		$post_tbl = $wpdb->prefix . 'posts';
 		$page_data = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * from '{$wpdb->prefix}'posts where post_name=%s", "dafater_report")
+			$wpdb->prepare( "SELECT * from $post_tbl where post_name LIKE %s", "dafater_report_page%")
 		);
+
 		if(empty($page_data)){
 			// create page
 			$post_arr_data = array(
 				"post_title"  => "گزارش عملکرد دفاتر",
-				"post_name" => "dafater_report",
-				"post_status" => "published",
+				"post_name" => "dafater_report_page",
+				"post_status" => "publish",
 				"post_author" => 1,
 				"post_content" => "hiiiii report bede baba",
 				"post_type" => "page"

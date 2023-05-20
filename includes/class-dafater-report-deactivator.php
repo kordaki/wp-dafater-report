@@ -29,12 +29,13 @@ class Dafater_Report_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
+	public function deactivate() {
 
-		// crete page if it does not exist
+		global $wpdb;
+		// Remove page if exist
+		$post_tbl = $wpdb->prefix . 'posts';
 		$page_data = $wpdb->get_row(
-			// why not get_var? ?????
-			$wpdb->prepare( "SELECT ID from '{$wpdb->prefix}'posts where post_name=%s", "dafater_report")
+			$wpdb->prepare( "SELECT * from $post_tbl where post_name LIKE %s", "dafater_report_page%")
 		);
 		$page_id = $page_data->ID;
 
