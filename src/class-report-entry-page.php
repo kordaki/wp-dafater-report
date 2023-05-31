@@ -9,12 +9,9 @@ class Report_Entry_Page {
 	 *
 	 * @since    1.0.0
 	 */
+	private $page_name = "dafater_report_page";
 
 	public function create_page(){
-
-		// require_once plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
-		// $report_table_class = new Report_Table;
-		// $report_table_class->create_table();
 
 		global $wpdb;
 		$post_tbl = $wpdb->prefix . 'posts';

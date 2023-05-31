@@ -11,14 +11,14 @@ class Report_Table {
 	 */
 
 
-	public function name() {
+	public static function name() {
 		global $wpdb;
 		return $wpdb->prefix . 'dafater_report';
 	}
 
 	public function create_table(){
 		global $wpdb;
-		$report_tbl = $this->name();
+		$report_tbl = $this::name();
 		$user_tbl = $wpdb->prefix . 'users';
 
 		// check if user table exist
@@ -45,7 +45,7 @@ class Report_Table {
         global $wpdb;
 
 		// Drop table if exist
-		$report_table = $this->name();
+		$report_table = $this::name();
 		$wpdb->query("DROP TABLE IF EXISTS $report_table");
     }
 
