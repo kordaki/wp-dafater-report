@@ -31,18 +31,16 @@ class Dafater_Report_Deactivator {
 	 */
 	public function deactivate() {
 
-		global $wpdb;
-		// Remove page if exist
-		$post_tbl = $wpdb->prefix . 'posts';
-		$page_data = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * from $post_tbl where post_name LIKE %s", "dafater_report_page%")
-		);
-		$page_id = $page_data->ID;
+		// drop report table
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
+		$report_table = new Report_Table;
+		$report_table->drop_table();
 
-		if($page_id > 0 ){
-			// delete page
-			wp_delete_post($page_id, true);
-		}
+
+		// Remove page if exist
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-entry-page.php';
+		$report_entry_page = new Report_Entry_Page;
+		$report_entry_page->remove_page();
 	}
 
 }
