@@ -160,6 +160,10 @@ class Dafater_Report {
 		// add admin menu
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'report_menu' );
 
+
+		//action hook for ajax request
+		$this->loader->add_action( 'wp_ajax_admin_ajax_request', $plugin_admin, 'handle_ajax_request_admin' );
+
 	}
 
 	/**

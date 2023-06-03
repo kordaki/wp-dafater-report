@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="col">
-                <button type="submit" class="btn btn-primary mb-3">نمایش</button>
+                <button type="submit" id="show-reports" class="btn btn-primary mb-3">نمایش</button>
             </div>
         </div>
     </div>
