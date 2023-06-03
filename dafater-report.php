@@ -37,6 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'DAFATER_REPORT_VERSION', '1.0.0' );
 define( 'DAFATER_REPORT_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
+define( 'DAFATER_REPORT_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
 /**
  * The code that runs during plugin activation.

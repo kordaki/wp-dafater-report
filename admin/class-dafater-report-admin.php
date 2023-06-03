@@ -61,20 +61,15 @@ class Dafater_Report_Admin {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Dafater_Report_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Dafater_Report_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/dafater-report-admin.css', array(), $this->version, 'all' );
-
+		$valid_pages=array("dafater-report-list", "dafater-report-setting");
+		$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
+		if(in_array($page, $valid_pages)){
+			wp_enqueue_style( "dr-bootstrap", DAFATER_REPORT_PLUGIN_URL . 'assets/css/bootstrap-rtl.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( "dr-data-table", DAFATER_REPORT_PLUGIN_URL . 'assets/css/jquery.dataTables.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( "dr-sweet-alert", DAFATER_REPORT_PLUGIN_URL . 'assets/css/sweetalert.min.css', array(), $this->version, 'all' );
+			
+			wp_enqueue_style( $this->plugin_name, DAFATER_REPORT_PLUGIN_URL . 'admin/css/dafater-report-admin.css', array(), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -84,19 +79,25 @@ class Dafater_Report_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Dafater_Report_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Dafater_Report_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		$valid_pages=array("dafater-report-list", "dafater-report-setting");
+		$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
+		if(in_array($page, $valid_pages)){
+			// load libraries
+			wp_enqueue_script( "jquery" );
+			wp_enqueue_script( "dr-bootstrap-js", DAFATER_REPORT_PLUGIN_URL . 'assets/js/bootstrap.min.js', array('jquery'), $this->version, false );
+			wp_enqueue_script( "dr-data-table-js", DAFATER_REPORT_PLUGIN_URL . 'assets/js/jquery.dataTables.min.js', array('jquery'), $this->version, false );
+			wp_enqueue_script( "dr-sweet-alert-js", DAFATER_REPORT_PLUGIN_URL . 'assets/js/sweetalert.min.js', array('jquery'), $this->version, false );
+			wp_enqueue_script( "dr-validate-js", DAFATER_REPORT_PLUGIN_URL . 'assets/js/jquery.validate.min.js', array('jquery'), $this->version, false );
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/dafater-report-admin.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name, DAFATER_REPORT_PLUGIN_URL . 'admin/js/dafater-report-admin.js', array( 'jquery' ), $this->version, false );
+
+			wp_localize_script( $this->plugin_name, 'owt_sweet_alert', array(
+				'confirm_text' => 'Are you sure?',
+				'cancel_text'  => 'Cancel',
+			) );
+
+		}
+
 
 	}
 
@@ -115,12 +116,40 @@ class Dafater_Report_Admin {
 		$table_name = $wpdb->prefix . 'users';
 		$users = $wpdb->get_results( "SELECT * FROM $table_name" );
 
-		print_r($users);
 
-		echo "<h3>Report List page :X </h3>";
+		// select table from database
+		$report_table = $wpdb->prefix . 'dafater_report';
+		$report_tbl = $wpdb->get_var("SHOW TABLES LIKE $report_table");
+
+		// $reports = $wpdb->get_results( "SELECT * FROM '{$wpdb->prefix}'posts where post_name='dafater_report-14'" );
+
+		// $post_tbl = $wpdb->prefix . 'posts';
+		// $page_data = $wpdb->get_results(
+		// 	$wpdb->prepare( "SELECT * from $post_tbl where post_name LIKE %s", "dafater_report_page%")
+		// );
+		
+
+		// print('<pre dir="ltr" style="text-align:left;">');
+		// print_r($table_query);
+		// print("</pre>");
+
+		// echo "<h3>Report List page :X </h3>";
+
+		ob_start();
+		include_once plugin_dir_path( __FILE__ ) . 'partials/dafater-report-list.php';
+		$setting_page = ob_get_clean();
+		ob_end_clean();
+		echo $setting_page;
+
 	}
 	public function dafater_report_setting(){
-		echo "<h3>Setting page :D </h3>";
+		ob_start();
+		include_once plugin_dir_path( __FILE__ ) . 'partials/dafater-report-setting.php';
+		$setting_page = ob_get_clean();
+		ob_end_clean();
+		echo $setting_page;
+
+		// echo "<h3>Setting page :D </h3>";
 	}
 
 	// preparing main db functions
