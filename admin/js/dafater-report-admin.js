@@ -22,7 +22,30 @@ jQuery(document).ready(function () {
     const postData =
       "action=admin_ajax_request&target=da_get_reports&" + formData;
     $.post(ajax_url, postData, function (response) {
-      console.log(response);
+      // create td elements for display_name, pdate, amount and pcreated_at inside of a tr for each item of response
+      const data = JSON.parse(response).data;
+      if (!!data && Array.isArray(data.reports)) {
+        const reports = data.reports;
+
+        $("#report_table_body").innerHTML = "";
+        reports.forEach((report) => {
+          const row = document.createElement("tr");
+          const displayName = document.createElement("td");
+          displayName.innerHTML = report.display_name;
+          const pdate = document.createElement("td");
+          pdate.innerHTML = report.pdate;
+          const amount = document.createElement("td");
+          amount.innerHTML = report.amount;
+          const pcreated_at = document.createElement("td");
+          pcreated_at.innerHTML = report.pcreated_at;
+          row.appendChild(displayName);
+          row.appendChild(pdate);
+          row.appendChild(amount);
+          row.appendChild(pcreated_at);
+          console.log(row);
+          //   $("#report_table_body").appendChild(row);
+        });
+      }
     });
   });
 

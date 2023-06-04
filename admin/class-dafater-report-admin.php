@@ -152,6 +152,12 @@ class Dafater_Report_Admin
 	}
 	public function dafater_report_setting()
 	{
+		$a = "2023-04-01 09:43:20";
+		$b = "2023-06-01";
+
+		$d = parsidate('M Y',$datetime=$a,$lang='per');
+		print($d);
+
 		ob_start();
 		include_once plugin_dir_path(__FILE__) . 'partials/dafater-report-setting.php';
 		$setting_page = ob_get_clean();
@@ -222,17 +228,33 @@ class Dafater_Report_Admin
 		// get_var
 		// get_row
 		// get_column
+
 		$reports = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM $reports_tbl
-			    INNER JOIN {$wpdb->users} ON {$reports_tbl}.user_id= {$wpdb->users}.id
-			")
+				"SELECT 
+					{$reports_tbl}.id, 
+					{$reports_tbl}.amount, 
+					{$reports_tbl}.date, 
+					{$reports_tbl}.created_at, 
+					{$reports_tbl}.updated_at, 
+					{$wpdb->users}.display_name, 
+					{$wpdb->users}.user_email
+				FROM ($reports_tbl LEFT JOIN {$wpdb->users} ON {$reports_tbl}.user_id = {$wpdb->users}.id)
+				WHERE {$reports_tbl}.deleted_at is NULL
+			"
+			)
 		);
 
 		// $reports = $wpdb->get_results(
 		// 	$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
 		// );
-		$response = array("status" => 1, "message" => "success", "data" => array("reports" => $reports, "family" => "kordaki"));
+
+		// sanitizing data
+		foreach ($reports as $key => $value) {
+			$reports[$key]->pdate = parsidate('M Y', $value->date, 'per');
+			$reports[$key]->pcreated_at = parsidate('Y/m/d h:m', $value->created_at, 'per');
+		}
+		$response = array("status" => 200, "message" => "success", "data" => array("reports" => $reports));
 		echo json_encode($response);
 	}
 
