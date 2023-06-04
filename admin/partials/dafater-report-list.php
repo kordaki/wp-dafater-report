@@ -20,19 +20,19 @@
 <div class="container-fluid">
 
     <div class="">
-        <div class="row gx-5">
+        <form id="search-reports-form" class="row gx-5">
             <div class="col">
                 <div class="row">
                     <label class="col-sm-2 col-form-label" for="year-selector">
                         سال:
                     </label>
-                    <select class="form-select col-sm-3" aria-label="سال" id="year-selector">
-                        <option value="1" selected>1401</option>
-                        <option value="2">1402</option>
-                        <option value="3">1403</option>
-                        <option value="4">1404</option>
-                        <option value="5">1405</option>
-                        <option value="6">1406</option>
+                    <select name="year" class="form-select col-sm-3" aria-label="سال" id="year-selector">
+                        <option value="1401" selected>1401</option>
+                        <option value="1402">1402</option>
+                        <option value="1403">1403</option>
+                        <option value="1404">1404</option>
+                        <option value="1405">1405</option>
+                        <option value="1406">1406</option>
                     </select>
                 </div>
 
@@ -42,7 +42,7 @@
                     <label class="col-sm-2 col-form-label" for="month-selector">
                         ماه:
                     </label>
-                    <select class="form-select col-sm-3" aria-label="ماه" id="month-selector">
+                    <select name="month" class="form-select col-sm-3" aria-label="ماه" id="month-selector">
                         <option value="1" selected>فروردین</option>
                         <option value="2">اردیبهشت</option>
                         <option value="3">خرداد</option>
@@ -61,7 +61,7 @@
             <div class="col">
                 <button type="submit" id="show-reports" class="btn btn-primary mb-3">نمایش</button>
             </div>
-        </div>
+        </form>
     </div>
 
 

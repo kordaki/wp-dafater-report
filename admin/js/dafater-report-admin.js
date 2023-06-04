@@ -16,11 +16,22 @@ jQuery(document).ready(function () {
     // },
   });
 
-  // processing event on button click
-  $(document).on("click", "#show-reports", function () {
-    const postData = "action=admin_ajax_request&param1=javad&param2=2";
+  $("#search-reports-form").on("submit", function (e) {
+    e.preventDefault();
+    const formData = $("#search-reports-form").serialize();
+    const postData =
+      "action=admin_ajax_request&target=da_get_reports&" + formData;
     $.post(ajax_url, postData, function (response) {
       console.log(response);
     });
   });
+
+  // processing event on button click
+  //   $(document).on("click", "#show-reports", function () {
+  //     const postData =
+  //       "action=admin_ajax_request&target=da_get_reports&year=2&month=11";
+  //     $.post(ajax_url, postData, function (response) {
+  //       console.log(response);
+  //     });
+  //   });
 });

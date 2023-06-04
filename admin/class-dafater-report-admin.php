@@ -166,47 +166,48 @@ class Dafater_Report_Admin
 	public function handle_ajax_request_admin()
 	{
 		// handle ajax request of admin
-		$param = isset($_REQUEST['param1']) ? $_REQUEST['param1'] : '';
+		$target = isset($_REQUEST['target']) ? $_REQUEST['target'] : '';
 		$method = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
 
 		// print_r($param);
 
-		// if (empty($param)) {
-		// 	wp_die();
-		// }
-
-		echo json_encode(
-			array(
-				"status" => 200,
-				"message" => "success",
-				"data" => array(
-					"name" => "pouriya",
-					"family" => $param,
-					"req" => $_REQUEST
-				)
-			)
-		);
+		// echo json_encode(
+		// 	array(
+		// 		"status" => 200,
+		// 		"message" => "success",
+		// 		"data" => array(
+		// 			"name" => "pouriya",
+		// 			"family" => $param,
+		// 			"req" => $_REQUEST
+		// 		)
+		// 	)
+		// );
 
 		// $param = json_decode($param, true);
 		// $action = isset($param['action']) ? $param['action'] : '';
-		// switch ($action) {
-		// 	case 'da_add_report':
-		// 		$this->add_report($params);
-		// 		break;
-		// 	case 'da_update_report':
-		// 		$this->update_report($params);
-		// 		break;
-		// 	case 'da_delete_report':
-		// 		$this->delete_report($params);
-		// 		break;
-		// 	case 'da_get_reports':
-		// 		$this->get_reports($params);
-		// 		break;
-		// 	default:
-		// 		# code...
-		// 		break;
-		// }
 
+		if (!empty($target)) {
+			switch ($target) {
+				case 'da_add_report':
+					$this->add_report($_REQUEST);
+					break;
+				case 'da_update_report':
+					$this->update_report($_REQUEST);
+					break;
+				case 'da_delete_report':
+					$this->delete_report($_REQUEST);
+					break;
+				case 'da_get_reports': {
+						$year = $_REQUEST['year'];
+						$month = $_REQUEST['month'];
+						$this->get_reports($year, $month);
+						break;
+					}
+				default:
+					# code...
+					break;
+			}
+		}
 		wp_die();
 	}
 
@@ -214,17 +215,24 @@ class Dafater_Report_Admin
 
 	// preparing main db functions
 
-	function get_reports($date)
+	function get_reports($year, $month)
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'dafater_report';
+		$reports_tbl = $wpdb->prefix . 'dafater_report';
 		// get_var
 		// get_row
 		// get_column
 		$reports = $wpdb->get_results(
-			$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
+			$wpdb->prepare(
+				"SELECT * FROM $reports_tbl
+			    INNER JOIN {$wpdb->users} ON {$reports_tbl}.user_id= {$wpdb->users}.id
+			")
 		);
-		$response = array("status" => 1, "message" => "success", "data" => array("name" => "pouriya", "family" => "kordaki"));
+
+		// $reports = $wpdb->get_results(
+		// 	$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
+		// );
+		$response = array("status" => 1, "message" => "success", "data" => array("reports" => $reports, "family" => "kordaki"));
 		echo json_encode($response);
 	}
 
@@ -263,5 +271,7 @@ class Dafater_Report_Admin
 			"deleted_at" => $currentDate,
 		), array("id" => $reportId));
 	}
+
+
 
 }
