@@ -41,6 +41,43 @@ class Report_Table {
 		};
 	}
 
+	public function get_reports($year, $month){
+		global $wpdb;
+		$report_tbl = $this::name();
+
+		// get_var
+		// get_row
+		// get_column
+		
+		$reports = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT 
+					{$report_tbl}.id, 
+					{$report_tbl}.amount, 
+					{$report_tbl}.date, 
+					{$report_tbl}.created_at, 
+					{$report_tbl}.updated_at, 
+					{$wpdb->users}.display_name, 
+					{$wpdb->users}.user_email
+				FROM ($report_tbl LEFT JOIN {$wpdb->users} ON {$report_tbl}.user_id = {$wpdb->users}.id)
+				WHERE {$report_tbl}.deleted_at is NULL
+			"
+			)
+		);
+
+		// $reports = $wpdb->get_results(
+		// 	$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
+		// );
+
+		// sanitizing data
+		foreach ($reports as $key => $value) {
+			$reports[$key]->pdate = parsidate('M Y', $value->date, 'per');
+			$reports[$key]->pcreated_at = parsidate('Y/m/d h:m', $value->created_at, 'per');
+		}
+
+		return $reports;
+	}
+
     public function drop_table(){
         global $wpdb;
 

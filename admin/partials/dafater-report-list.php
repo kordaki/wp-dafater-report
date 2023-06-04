@@ -66,54 +66,28 @@
 
 
 
-
-
-    <table id="example" class="report-table display " style="width:100%">
+    <table id="report_table" class="report-table display " style="width:100%">
         <thead>
             <tr>
                 <th>دفترخانه</th>
                 <th>ماه</th>
                 <th>درآمد</th>
-                <th>تاریخ ایجاد</th>
+                <th>تاریخ ثبت</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>دفترخانه شانزده</td>
-                <td>1401/12</td>
-                <td>$170,750</td>
-                <td>2011-07-25</td>
-            </tr>
-            <tr>
-                <td>Garrett Winters</td>
-                <td>Accountant</td>
-                <td>Tokyo</td>
-                <td>63</td>
-            </tr>
-            <tr>
-                <td>Ashton Cox</td>
-                <td>Junior Technical Author</td>
-                <td>San Francisco</td>
-                <td>66</td>
-            </tr>
-            <tr>
-                <td>Cedric Kelly</td>
-                <td>Senior Javascript Developer</td>
-                <td>Edinburgh</td>
-                <td>22</td>
-            </tr>
-            <tr>
-                <td>Airi Satou</td>
-                <td>Accountant</td>
-                <td>Tokyo</td>
-                <td>33</td>
-            </tr>
-            <tr>
-                <td>Brielle Williamson</td>
-                <td>Integration Specialist</td>
-                <td>New York</td>
-                <td>61</td>
-            </tr>
+            <?php
+                if(count($reports) > 0 ) {
+                    foreach($reports as $report) {
+                        echo "<tr>";
+                        echo "<td>" . $report->display_name . "</td>";
+                        echo "<td>" . $report->pdate . "</td>";
+                        echo "<td>" . $report->amount . "</td>";
+                        echo "<td>" . $report->pcreated_at . "</td>";
+                        echo "</tr>";
+                    }
+                }
+            ?>
         </tbody>
         <tfoot>
             <tr>

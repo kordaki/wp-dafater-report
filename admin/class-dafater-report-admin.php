@@ -20,6 +20,9 @@
  * @subpackage Dafater_Report/admin
  * @author     Pouriya Kordaki <pouriya.kordaki@gmail.com>
  */
+
+ require plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
+
 class Dafater_Report_Admin
 {
 
@@ -143,6 +146,11 @@ class Dafater_Report_Admin
 
 		// echo "<h3>Report List page :X </h3>";
 
+		$year = "1402";
+		$month = "2";
+		$report_table = new Report_Table;
+		$reports = $report_table->get_reports($year, $month);
+
 		ob_start();
 		include_once plugin_dir_path(__FILE__) . 'partials/dafater-report-list.php';
 		$setting_page = ob_get_clean();
@@ -223,37 +231,9 @@ class Dafater_Report_Admin
 
 	function get_reports($year, $month)
 	{
-		global $wpdb;
-		$reports_tbl = $wpdb->prefix . 'dafater_report';
-		// get_var
-		// get_row
-		// get_column
-
-		$reports = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT 
-					{$reports_tbl}.id, 
-					{$reports_tbl}.amount, 
-					{$reports_tbl}.date, 
-					{$reports_tbl}.created_at, 
-					{$reports_tbl}.updated_at, 
-					{$wpdb->users}.display_name, 
-					{$wpdb->users}.user_email
-				FROM ($reports_tbl LEFT JOIN {$wpdb->users} ON {$reports_tbl}.user_id = {$wpdb->users}.id)
-				WHERE {$reports_tbl}.deleted_at is NULL
-			"
-			)
-		);
-
-		// $reports = $wpdb->get_results(
-		// 	$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
-		// );
-
-		// sanitizing data
-		foreach ($reports as $key => $value) {
-			$reports[$key]->pdate = parsidate('M Y', $value->date, 'per');
-			$reports[$key]->pcreated_at = parsidate('Y/m/d h:m', $value->created_at, 'per');
-		}
+		$report_table = new Report_Table;
+		$reports = $report_table->get_reports($year, $month);
+		
 		$response = array("status" => 200, "message" => "success", "data" => array("reports" => $reports));
 		echo json_encode($response);
 	}

@@ -2,7 +2,7 @@ jQuery(document).ready(function () {
   var $ = jQuery;
   const ajax_url = dr_public.ajax_url;
 
-  $("#example").DataTable({
+  var reports_dataTable = $("#report_table").DataTable({
     scrollY: 500,
     scrollX: true,
     scrollCollapse: true,
@@ -26,25 +26,37 @@ jQuery(document).ready(function () {
       const data = JSON.parse(response).data;
       if (!!data && Array.isArray(data.reports)) {
         const reports = data.reports;
+        console.log(reports);
+        reports_dataTable.clear().rows.add(reports).draw();
 
-        $("#report_table_body").innerHTML = "";
-        reports.forEach((report) => {
-          const row = document.createElement("tr");
-          const displayName = document.createElement("td");
-          displayName.innerHTML = report.display_name;
-          const pdate = document.createElement("td");
-          pdate.innerHTML = report.pdate;
-          const amount = document.createElement("td");
-          amount.innerHTML = report.amount;
-          const pcreated_at = document.createElement("td");
-          pcreated_at.innerHTML = report.pcreated_at;
-          row.appendChild(displayName);
-          row.appendChild(pdate);
-          row.appendChild(amount);
-          row.appendChild(pcreated_at);
-          console.log(row);
-          //   $("#report_table_body").appendChild(row);
-        });
+        // $("#report_table").DataTable({
+        //   data: reports,
+        //   columns: [
+        //     { title: "دفترخانه" },
+        //     { title: "ماه" },
+        //     { title: "درآمد" },
+        //     { title: "تاریخ ایجاد" },
+        //   ],
+        // });
+
+        // $("#report_table_body").innerHTML = "";
+        // reports.forEach((report) => {
+        //   const row = document.createElement("tr");
+        //   const displayName = document.createElement("td");
+        //   displayName.innerHTML = report.display_name;
+        //   const pdate = document.createElement("td");
+        //   pdate.innerHTML = report.pdate;
+        //   const amount = document.createElement("td");
+        //   amount.innerHTML = report.amount;
+        //   const pcreated_at = document.createElement("td");
+        //   pcreated_at.innerHTML = report.pcreated_at;
+        //   row.appendChild(displayName);
+        //   row.appendChild(pdate);
+        //   row.appendChild(amount);
+        //   row.appendChild(pcreated_at);
+        //   console.log(row);
+        //   $("#report_table_body").appendChild(row);
+        // });
       }
     });
   });
