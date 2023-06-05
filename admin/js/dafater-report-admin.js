@@ -9,6 +9,21 @@ jQuery(document).ready(function () {
     language: {
       url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/fa.json",
     },
+    columnDefs: [
+      {
+        searchable: false,
+        orderable: false,
+        targets: 0,
+      },
+    ],
+    order: [[1, "asc"]],
+    columns: [
+      { title: "ردیف", data: null },
+      { title: "دفترخانه", data: "display_name" },
+      { title: "ماه", data: "pdate" },
+      { title: "درآمد", data: "income" },
+      { title: "تاریخ ایجاد", data: "pcreated_at" },
+    ],
     // paging: false,
     // fixedColumns: {
     //   left: 1,
@@ -22,44 +37,30 @@ jQuery(document).ready(function () {
     const postData =
       "action=admin_ajax_request&target=da_get_reports&" + formData;
     $.post(ajax_url, postData, function (response) {
-      // create td elements for display_name, pdate, amount and pcreated_at inside of a tr for each item of response
+      // create td elements for display_name, pdate, income and pcreated_at inside of a tr for each item of response
       const data = JSON.parse(response).data;
       if (!!data && Array.isArray(data.reports)) {
         const reports = data.reports;
         console.log(reports);
         reports_dataTable.clear().rows.add(reports).draw();
-
-        // $("#report_table").DataTable({
-        //   data: reports,
-        //   columns: [
-        //     { title: "دفترخانه" },
-        //     { title: "ماه" },
-        //     { title: "درآمد" },
-        //     { title: "تاریخ ایجاد" },
-        //   ],
-        // });
-
-        // $("#report_table_body").innerHTML = "";
-        // reports.forEach((report) => {
-        //   const row = document.createElement("tr");
-        //   const displayName = document.createElement("td");
-        //   displayName.innerHTML = report.display_name;
-        //   const pdate = document.createElement("td");
-        //   pdate.innerHTML = report.pdate;
-        //   const amount = document.createElement("td");
-        //   amount.innerHTML = report.amount;
-        //   const pcreated_at = document.createElement("td");
-        //   pcreated_at.innerHTML = report.pcreated_at;
-        //   row.appendChild(displayName);
-        //   row.appendChild(pdate);
-        //   row.appendChild(amount);
-        //   row.appendChild(pcreated_at);
-        //   console.log(row);
-        //   $("#report_table_body").appendChild(row);
-        // });
       }
     });
   });
+
+  // apply auto index to first column
+  reports_dataTable
+    .on("order.dt search.dt", function () {
+      reports_dataTable
+        .column(0, {
+          search: "applied",
+          order: "applied",
+        })
+        .nodes()
+        .each(function (cell, i) {
+          cell.innerHTML = i + 1;
+        });
+    })
+    .draw();
 
   // processing event on button click
   //   $(document).on("click", "#show-reports", function () {

@@ -69,6 +69,7 @@
     <table id="report_table" class="report-table display " style="width:100%">
         <thead>
             <tr>
+                <th>ردیف</th>
                 <th>دفترخانه</th>
                 <th>ماه</th>
                 <th>درآمد</th>
@@ -77,20 +78,22 @@
         </thead>
         <tbody>
             <?php
-                if(count($reports) > 0 ) {
-                    foreach($reports as $report) {
-                        echo "<tr>";
-                        echo "<td>" . $report->display_name . "</td>";
-                        echo "<td>" . $report->pdate . "</td>";
-                        echo "<td>" . $report->amount . "</td>";
-                        echo "<td>" . $report->pcreated_at . "</td>";
-                        echo "</tr>";
-                    }
+            if (count($reports) > 0) {
+                foreach ($reports as $report) {
+                    echo "<tr>";
+                    echo "<td>" . $report->id . "</td>";
+                    echo "<td>" . $report->display_name . "</td>";
+                    echo "<td>" . $report->pdate . "</td>";
+                    echo "<td>" . $report->income . "</td>";
+                    echo "<td>" . $report->pcreated_at . "</td>";
+                    echo "</tr>";
                 }
+            }
             ?>
         </tbody>
         <tfoot>
             <tr>
+                <th>ردیف</th>
                 <th>دفترخانه</th>
                 <th>ماه</th>
                 <th>درآمد</th>

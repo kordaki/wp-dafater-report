@@ -27,7 +27,7 @@ class Report_Table {
 			$table_query = "CREATE TABLE $report_tbl (
 				id bigint(11) NOT NULL AUTO_INCREMENT,
 				user_id bigint(20) unsigned NOT NULL,
-				amount bigint(20) NOT NULL,
+				income bigint(20) NOT NULL,
 				date date DEFAULT NULL,
 				created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				updated_at datetime DEFAULT NULL,
@@ -53,7 +53,7 @@ class Report_Table {
 			$wpdb->prepare(
 				"SELECT 
 					{$report_tbl}.id, 
-					{$report_tbl}.amount, 
+					{$report_tbl}.income, 
 					{$report_tbl}.date, 
 					{$report_tbl}.created_at, 
 					{$report_tbl}.updated_at, 

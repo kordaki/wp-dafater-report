@@ -238,7 +238,7 @@ class Dafater_Report_Admin
 		echo json_encode($response);
 	}
 
-	function add_report($userId, $amount, $date)
+	function add_report($userId, $income, $date)
 	{
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'dafater_report';
@@ -246,19 +246,19 @@ class Dafater_Report_Admin
 			$table_name,
 			array(
 				"user_id" => $userId,
-				"amount" => $amount,
+				"income" => $income,
 				"date" => $date
 			)
 		);
 	}
 
-	function update_report($userId, $amount, $date, $reportId)
+	function update_report($userId, $income, $date, $reportId)
 	{
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'dafater_report';
 		$wpdb->update($table_name, array(
 			"user_id" => $userId,
-			"amount" => $amount,
+			"income" => $income,
 			"date" => $date
 		), array("id" => $reportId));
 	}
