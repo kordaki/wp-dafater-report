@@ -1,7 +1,7 @@
+<pre>
+<?php print_r($data); ?>
+</pre>
 <div class="container d-flex align-items-center justify-content-center">
-    <pre>
-    <?php print_r($data); ?>
-    </pre>
     <form class="container" id="new-report-form">
         <div class="mb-3">
             <label for="user-name" class="form-label">گزارش دهنده:</label>
@@ -26,18 +26,11 @@
         <div class="mb-3">
             <label for="month-selector" class="form-label">ماه :</label>
             <select class="form-select" aria-label="ماه" name="month" id="month-selector" disabled>
-                <option value="1" selected>فروردین</option>
-                <option value="2">اردیبهشت</option>
-                <option value="3">خرداد</option>
-                <option value="4">تیر</option>
-                <option value="5">مرداد</option>
-                <option value="6">شهریور</option>
-                <option value="7">مهر</option>
-                <option value="8">آبان</option>
-                <option value="9">آذر</option>
-                <option value="10">دی</option>
-                <option value="11">بهمن</option>
-                <option value="12">اسفند</option>
+                <?php foreach ($month_list as $key => $value) : ?>
+                    <option value="<?php echo $key; ?>" <?php echo ($key == $active_month) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+
+                <?php endforeach; ?>
+                
             </select>
         </div>
         <button type="submit" class="btn btn-primary">ذخیره</button>

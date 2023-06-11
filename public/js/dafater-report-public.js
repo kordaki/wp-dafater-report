@@ -10,15 +10,15 @@ jQuery(document).ready(function () {
       "action=public_ajax_request&target=da_add_report&" + formData;
     console.log("----- formData:", formData);
 
-    // $.post(ajax_url, postData, function (response) {
-    //   const data = JSON.parse(response).data;
-    //   if (!!data && data.report) {
-    //     const report = data.report;
-    //		alert("گزارش عملکرد شما با موفقیت ثبت شد.");
-    //		window.location.reload();
-    //     console.log(report);
-    //   }
-    // });
+    $.post(ajax_url, postData, function (response) {
+      const data = JSON.parse(response).data;
+      if (!!data && data.report) {
+        const report = data.report;
+        alert("گزارش عملکرد شما با موفقیت ثبت شد.");
+        window.location.reload();
+        console.log(report);
+      }
+    });
   });
 
   // on Edit report

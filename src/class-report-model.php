@@ -78,6 +78,21 @@ class Report_Model {
 		return $reports;
 	}
 
+
+	public static function add_report($user_id, $date, $income)
+	{
+		global $wpdb;
+		$table_name = self::name();
+		$wpdb->insert(
+			$table_name,
+			array(
+				"user_id" => $user_id,
+				"income" => $income,
+				"date" => $date
+			)
+		);
+	}
+
     public function drop_table(){
         global $wpdb;
 

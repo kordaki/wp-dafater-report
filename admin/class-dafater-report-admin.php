@@ -21,8 +21,6 @@
  * @author     Pouriya Kordaki <pouriya.kordaki@gmail.com>
  */
 
- require plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
-
 class Dafater_Report_Admin
 {
 
@@ -146,6 +144,7 @@ class Dafater_Report_Admin
 
 		// echo "<h3>Report List page :X </h3>";
 
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
 		$year = "1402";
 		$month = "2";
 		$report_model = new Report_Model;
@@ -231,6 +230,7 @@ class Dafater_Report_Admin
 
 	function get_reports($year, $month)
 	{
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
 		$report_model = new Report_Model;
 		$reports = $report_model->get_reports($year, $month);
 		
@@ -240,16 +240,7 @@ class Dafater_Report_Admin
 
 	function add_report($userId, $income, $date)
 	{
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'dafater_report';
-		$wpdb->insert(
-			$table_name,
-			array(
-				"user_id" => $userId,
-				"income" => $income,
-				"date" => $date
-			)
-		);
+		
 	}
 
 	function update_report($userId, $income, $date, $reportId)

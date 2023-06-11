@@ -23,7 +23,7 @@
 
 // require plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
 
- class Dafater_Report_Public
+class Dafater_Report_Public
 {
 
 	/**
@@ -137,6 +137,17 @@
 	{
 		$user = wp_get_current_user();
 		$user_name = $user->display_name;
+
+		// $year = parsidate('Y', $datetime = '-1 month', $lang = 'eng');
+		// $month = parsidate('m', $datetime = '-1 month', $lang = 'eng');
+		// $miladi = gregdate('Y-m-d', $year ." ". $month ." ". "01", $lang = 'eng');
+
+		$data = "";
+
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		$active_month = Helper_Date::get_active_month();
+		$active_month = Helper_Date::get_active_year();
+		$month_list = Helper_Date::get_month_list();
 		ob_start();
 		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
 		$template = ob_get_contents();
@@ -166,19 +177,24 @@
 		wp_die();
 	}
 
-	public function add_user_report($request){
-		$user = wp_get_current_user();
+	public function add_user_report($request)
+	{
+		$income = $request['income'];
+		$user_id = get_current_user_id();
 
-		// $report_model = new Report_Model;
-		// $reports = $report_model->add_report();
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		$active_date_europe = Helper_Date::get_active_date_europe();
 
-		$response = array("status" => 200, "message" => "success", "data" => array("report" => $_REQUEST));
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
+		Report_Model::add_report($user_id, $active_date_europe, $income);
 
-		
+		$response = array("status" => 200, "message" => "success", "data" => array("report" => $income, "date" => $active_date_europe, "user_id" => $user_id));
+
 		echo json_encode($response);
 	}
 
-	public function update_user_report($request){
+	public function update_user_report($request)
+	{
 
 	}
 }
