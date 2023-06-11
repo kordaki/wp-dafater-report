@@ -74,6 +74,8 @@ class Dafater_Report_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/dafater-report-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style("dr-bootstrap", DAFATER_REPORT_PLUGIN_URL . 'assets/css/bootstrap-rtl.min.css', array(), $this->version, 'all');
+
 
 	}
 
@@ -98,6 +100,21 @@ class Dafater_Report_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/dafater-report-public.js', array( 'jquery' ), $this->version, false );
 
+
+
+		$user = wp_get_current_user();
+		wp_localize_script(
+			$this->plugin_name,
+			'dr_public',
+			array(
+				'confirm_text' => 'Are you sure?',
+				// 'cancel_text' => wp_get_current_user(),
+				'user_name' => $user->display_name,
+				'user_email' => $user->user_email,
+				'ajax_url' => admin_url('admin-ajax.php'),
+			)
+		);
+
 	}
 
 	public function report_page_template(){
@@ -109,6 +126,8 @@ class Dafater_Report_Public {
 	}
 
 	public function render_dafater_report_form(){
+		$user = wp_get_current_user();
+		$user_name = $user->display_name;
 		ob_start();
 		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
 		$template = ob_get_contents();
