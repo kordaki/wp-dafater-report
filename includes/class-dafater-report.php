@@ -183,6 +183,9 @@ class Dafater_Report {
 		$this->loader->add_filter('page_template', $plugin_public, 'report_page_template' );
 		add_shortcode('dafater-report-form', array( $plugin_public, 'render_dafater_report_form'));
 
+		//action hook for ajax request
+		$this->loader->add_action( 'wp_ajax_public_ajax_request', $plugin_public, 'handle_ajax_request_public' );
+
 	}
 
 	/**

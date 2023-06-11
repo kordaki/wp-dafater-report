@@ -20,7 +20,11 @@
  * @subpackage Dafater_Report/public
  * @author     Pouriya Kordaki <pouriya.kordaki@gmail.com>
  */
-class Dafater_Report_Public {
+
+// require plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
+
+ class Dafater_Report_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,7 +51,8 @@ class Dafater_Report_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
@@ -59,7 +64,8 @@ class Dafater_Report_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,7 +79,7 @@ class Dafater_Report_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/dafater-report-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/dafater-report-public.css', array(), $this->version, 'all');
 		wp_enqueue_style("dr-bootstrap", DAFATER_REPORT_PLUGIN_URL . 'assets/css/bootstrap-rtl.min.css', array(), $this->version, 'all');
 
 
@@ -84,7 +90,8 @@ class Dafater_Report_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -98,7 +105,7 @@ class Dafater_Report_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/dafater-report-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/dafater-report-public.js', array('jquery'), $this->version, false);
 
 
 
@@ -117,15 +124,17 @@ class Dafater_Report_Public {
 
 	}
 
-	public function report_page_template(){
+	public function report_page_template()
+	{
 		global $post;
-		if( $post->post_name == 'dafater_report_page' ){
+		if ($post->post_name == 'dafater_report_page') {
 			$page_template = DAFATER_REPORT_PLUGIN_PATH . 'public/partials/report_page_layout.php';
 			return $page_template;
 		}
 	}
 
-	public function render_dafater_report_form(){
+	public function render_dafater_report_form()
+	{
 		$user = wp_get_current_user();
 		$user_name = $user->display_name;
 		ob_start();
@@ -135,4 +144,41 @@ class Dafater_Report_Public {
 		echo $template;
 	}
 
+
+	public function handle_ajax_request_public()
+	{
+		// handle ajax request of public / users
+		$target = isset($_REQUEST['target']) ? $_REQUEST['target'] : '';
+
+		if (!empty($target)) {
+			switch ($target) {
+				case 'da_add_report':
+					$this->add_user_report($_REQUEST);
+					break;
+				case 'da_edit_report':
+					$this->update_user_report($_REQUEST);
+					break;
+				default:
+					# code...
+					break;
+			}
+		}
+		wp_die();
+	}
+
+	public function add_user_report($request){
+		$user = wp_get_current_user();
+
+		$report_model = new Report_Model;
+		// $reports = $report_model->add_report();
+
+		$response = array("status" => 200, "message" => "success", "data" => array("report" => $_REQUEST));
+
+		
+		echo json_encode($response);
+	}
+
+	public function update_user_report($request){
+
+	}
 }
