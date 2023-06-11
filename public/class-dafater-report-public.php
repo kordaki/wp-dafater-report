@@ -100,4 +100,20 @@ class Dafater_Report_Public {
 
 	}
 
+	public function report_page_template(){
+		global $post;
+		if( $post->post_name == 'dafater_report_page' ){
+			$page_template = DAFATER_REPORT_PLUGIN_PATH . 'public/partials/report_page_layout.php';
+			return $page_template;
+		}
+	}
+
+	public function render_dafater_report_form(){
+		ob_start();
+		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
+		$template = ob_get_contents();
+		ob_clean();
+		echo $template;
+	}
+
 }

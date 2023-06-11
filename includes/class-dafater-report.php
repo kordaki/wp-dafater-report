@@ -180,6 +180,9 @@ class Dafater_Report {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_filter('page_template', $plugin_public, 'report_page_template' );
+		add_shortcode('dafater-report-form', array( $plugin_public, 'render_dafater_report_form'));
+
 	}
 
 	/**

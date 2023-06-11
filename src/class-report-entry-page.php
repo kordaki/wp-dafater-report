@@ -27,7 +27,7 @@ class Report_Entry_Page {
 				"post_name" => "dafater_report_page",
 				"post_status" => "publish",
 				"post_author" => 1,
-				"post_content" => "hiiiii report bede baba",
+				"post_content" => "با استفاده از فرم زیر، گزارش عملکرد ماه گذشته را ثبت نمایید.",
 				"post_type" => "page"
 			);
 			wp_insert_post($post_arr_data);
