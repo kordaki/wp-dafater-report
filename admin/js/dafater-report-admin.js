@@ -41,7 +41,6 @@ jQuery(document).ready(function () {
       const data = JSON.parse(response).data;
       if (!!data && Array.isArray(data.reports)) {
         const reports = data.reports;
-        console.log(reports);
         reports_dataTable.clear().rows.add(reports).draw();
       }
     });

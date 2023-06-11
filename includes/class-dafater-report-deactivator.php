@@ -32,9 +32,9 @@ class Dafater_Report_Deactivator {
 	public function deactivate() {
 
 		// drop report table
-		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
-		$report_table = new Report_Table;
-		$report_table->drop_table();
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
+		$report_model = new Report_Model;
+		$report_model->drop_table();
 
 
 		// Remove page if exist

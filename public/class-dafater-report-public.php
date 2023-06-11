@@ -169,7 +169,7 @@
 	public function add_user_report($request){
 		$user = wp_get_current_user();
 
-		$report_model = new Report_Model;
+		// $report_model = new Report_Model;
 		// $reports = $report_model->add_report();
 
 		$response = array("status" => 200, "message" => "success", "data" => array("report" => $_REQUEST));

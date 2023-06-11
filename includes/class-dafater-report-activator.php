@@ -32,9 +32,9 @@ class Dafater_Report_Activator {
 	public function activate() {
 
 		// Create report table
-		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
-		$report_table = new Report_Table;
-		$report_table->create_table();
+		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
+		$report_model = new Report_Model;
+		$report_model->create_table();
 		
 		// crete page if it does not exist
 		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-entry-page.php';

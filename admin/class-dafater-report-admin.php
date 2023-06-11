@@ -21,7 +21,7 @@
  * @author     Pouriya Kordaki <pouriya.kordaki@gmail.com>
  */
 
- require plugin_dir_path( __FILE__ ) . '../src/class-report-table.php';
+ require plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
 
 class Dafater_Report_Admin
 {
@@ -148,8 +148,8 @@ class Dafater_Report_Admin
 
 		$year = "1402";
 		$month = "2";
-		$report_table = new Report_Table;
-		$reports = $report_table->get_reports($year, $month);
+		$report_model = new Report_Model;
+		$reports = $report_model->get_reports($year, $month);
 
 		ob_start();
 		include_once plugin_dir_path(__FILE__) . 'partials/dafater-report-list.php';
@@ -231,8 +231,8 @@ class Dafater_Report_Admin
 
 	function get_reports($year, $month)
 	{
-		$report_table = new Report_Table;
-		$reports = $report_table->get_reports($year, $month);
+		$report_model = new Report_Model;
+		$reports = $report_model->get_reports($year, $month);
 		
 		$response = array("status" => 200, "message" => "success", "data" => array("reports" => $reports));
 		echo json_encode($response);

@@ -1,6 +1,6 @@
 <?php
 
-class Report_Table {
+class Report_Model {
 
 	/**
 	 * Short Description. (use period)
