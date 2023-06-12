@@ -1,6 +1,7 @@
 <?php
 
-class Report_Model {
+class Report_Model
+{
 
 	/**
 	 * Short Description. (use period)
@@ -11,18 +12,20 @@ class Report_Model {
 	 */
 
 
-	public static function name() {
+	public static function name()
+	{
 		global $wpdb;
 		return $wpdb->prefix . 'dafater_report';
 	}
 
-	public function create_table(){
+	public function create_table()
+	{
 		global $wpdb;
 		$report_tbl = $this::name();
 		$user_tbl = $wpdb->prefix . 'users';
 
 		// check if user table exist
-		if ( $wpdb->get_var( "SHOW TABLES LIKE $report_tbl" ) != $report_tbl ) {
+		if ($wpdb->get_var("SHOW TABLES LIKE $report_tbl") != $report_tbl) {
 			$charset_collate = "ENGINE=InnoDB DEFAULT CHARSET=latin1";
 			$table_query = "CREATE TABLE $report_tbl (
 				id bigint(11) NOT NULL AUTO_INCREMENT,
@@ -36,19 +39,21 @@ class Report_Model {
 				FOREIGN KEY (user_id) REFERENCES $user_tbl(id)
 			) $charset_collate;";
 
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $table_query );
-		};
+			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+			dbDelta($table_query);
+		}
+		;
 	}
 
-	public function get_reports($year, $month){
+	public function get_reports($year, $month)
+	{
 		global $wpdb;
 		$report_tbl = $this::name();
 
 		// get_var
 		// get_row
 		// get_column
-		
+
 		$reports = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT 
@@ -78,6 +83,26 @@ class Report_Model {
 		return $reports;
 	}
 
+	public static function get_report($user_id, $date = null)
+	{
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		if (!$date) {
+			$date = Helper_Date::get_active_date_europe();
+		}
+
+		global $wpdb;
+		$table_name = self::name();
+		$report = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT * FROM $table_name WHERE user_id = %d AND date = %s AND deleted_at is NULL",
+				$user_id, $date
+			)
+		);
+		$persian_date_array = Helper_Date::get_persian_date_array($report->date);
+		$report->pYear = $persian_date_array['year'];
+		$report->pMonth = $persian_date_array['month'];
+		return $report;
+	}
 
 	public static function add_report($user_id, $date, $income)
 	{
@@ -93,12 +118,13 @@ class Report_Model {
 		);
 	}
 
-    public function drop_table(){
-        global $wpdb;
+	public function drop_table()
+	{
+		global $wpdb;
 
 		// Drop table if exist
 		$report_table = $this::name();
 		$wpdb->query("DROP TABLE IF EXISTS $report_table");
-    }
+	}
 
 }

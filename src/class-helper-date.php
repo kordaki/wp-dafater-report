@@ -40,6 +40,17 @@ class Helper_Date
         $date = parsidate('Y m d', $datetime = $date, $lang = 'eng');
         return $date;
     }
+    public static function get_persian_date_array($date)
+    {
+        $date = parsidate('Y m', $datetime = $date, $lang = 'eng');
+        $date = explode(' ', $date);
+        $year = $date[0];
+        $month = $date[1];
+        return array(
+            'year' => $year,
+            'month' => $month,
+        );
+    }
 
     public static function get_month_list()
     {
@@ -56,6 +67,20 @@ class Helper_Date
             '10' => 'دی',
             '11' => 'بهمن',
             '12' => 'اسفند',
+        );
+    }
+
+    public static function get_year_list(){
+        return array(
+            '1400' => '۱۴۰۰',
+            '1401' => '۱۴۰۱',
+            '1402' => '۱۴۰۲',
+            '1403' => '۱۴۰۳',
+            '1404' => '۱۴۰۴',
+            '1405' => '۱۴۰۵',
+            '1406' => '۱۴۰۶',
+            '1407' => '۱۴۰۷',
+            '1408' => '۱۴۰۸',
         );
     }
 

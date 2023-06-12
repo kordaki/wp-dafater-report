@@ -138,16 +138,17 @@ class Dafater_Report_Public
 		$user = wp_get_current_user();
 		$user_name = $user->display_name;
 
-		// $year = parsidate('Y', $datetime = '-1 month', $lang = 'eng');
-		// $month = parsidate('m', $datetime = '-1 month', $lang = 'eng');
-		// $miladi = gregdate('Y-m-d', $year ." ". $month ." ". "01", $lang = 'eng');
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
+		$report = Report_Model::get_report($user->ID);
+		$is_edit = !empty($report) ? true : false;
 
-		$data = "";
+		// $data = $report;
 
 		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
-		$active_month = Helper_Date::get_active_month();
-		$active_month = Helper_Date::get_active_year();
+		$active_month = $is_edit? $report->pMonth : Helper_Date::get_active_month();
+		$active_year = $is_edit ? $report->pYear : Helper_Date::get_active_year();
 		$month_list = Helper_Date::get_month_list();
+		$year_list = Helper_Date::get_year_list();
 		ob_start();
 		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
 		$template = ob_get_contents();
@@ -166,7 +167,7 @@ class Dafater_Report_Public
 				case 'da_add_report':
 					$this->add_user_report($_REQUEST);
 					break;
-				case 'da_edit_report':
+				case 'da_update_report':
 					$this->update_user_report($_REQUEST);
 					break;
 				default:
@@ -195,6 +196,7 @@ class Dafater_Report_Public
 
 	public function update_user_report($request)
 	{
-
+		$response = array("status" => 200, "message" => "success222", "data" => array("report" => $request));
+		echo json_encode($response);
 	}
 }
