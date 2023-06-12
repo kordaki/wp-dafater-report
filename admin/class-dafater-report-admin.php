@@ -144,7 +144,14 @@ class Dafater_Report_Admin
 
 		// echo "<h3>Report List page :X </h3>";
 
-		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		$active_month = Helper_Date::get_active_month();
+		$active_year = Helper_Date::get_active_year();
+		$month_list = Helper_Date::get_month_list();
+		$year_list = Helper_Date::get_year_list();
+
+
+		require_once plugin_dir_path(__FILE__) . '../src/class-report-model.php';
 		$year = "1402";
 		$month = "2";
 		$report_model = new Report_Model;
@@ -162,7 +169,7 @@ class Dafater_Report_Admin
 		$a = "2023-04-01 09:43:20";
 		$b = "2023-06-01";
 
-		$d = parsidate('M Y',$datetime=$a,$lang='per');
+		$d = parsidate('M Y', $datetime = $a, $lang = 'per');
 		print($d);
 
 		ob_start();
@@ -180,24 +187,6 @@ class Dafater_Report_Admin
 	{
 		// handle ajax request of admin
 		$target = isset($_REQUEST['target']) ? $_REQUEST['target'] : '';
-		$method = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
-
-		// print_r($param);
-
-		// echo json_encode(
-		// 	array(
-		// 		"status" => 200,
-		// 		"message" => "success",
-		// 		"data" => array(
-		// 			"name" => "pouriya",
-		// 			"family" => $param,
-		// 			"req" => $_REQUEST
-		// 		)
-		// 	)
-		// );
-
-		// $param = json_decode($param, true);
-		// $action = isset($param['action']) ? $param['action'] : '';
 
 		if (!empty($target)) {
 			switch ($target) {
@@ -211,9 +200,7 @@ class Dafater_Report_Admin
 					$this->delete_report($_REQUEST);
 					break;
 				case 'da_get_reports': {
-						$year = $_REQUEST['year'];
-						$month = $_REQUEST['month'];
-						$this->get_reports($year, $month);
+						$this->get_reports($_REQUEST);
 						break;
 					}
 				default:
@@ -228,19 +215,22 @@ class Dafater_Report_Admin
 
 	// preparing main db functions
 
-	function get_reports($year, $month)
+	function get_reports($request)
 	{
-		require_once plugin_dir_path( __FILE__ ) . '../src/class-report-model.php';
+		$year = $_REQUEST['year'];
+		$month = $_REQUEST['month'];
+
+		require_once plugin_dir_path(__FILE__) . '../src/class-report-model.php';
 		$report_model = new Report_Model;
 		$reports = $report_model->get_reports($year, $month);
-		
+
 		$response = array("status" => 200, "message" => "success", "data" => array("reports" => $reports));
 		echo json_encode($response);
 	}
 
 	function add_report($userId, $income, $date)
 	{
-		
+
 	}
 
 	function update_report($userId, $income, $date, $reportId)

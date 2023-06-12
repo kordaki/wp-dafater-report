@@ -27,12 +27,9 @@
                         سال:
                     </label>
                     <select name="year" class="form-select col-sm-3" aria-label="سال" id="year-selector">
-                        <option value="1401" selected>1401</option>
-                        <option value="1402">1402</option>
-                        <option value="1403">1403</option>
-                        <option value="1404">1404</option>
-                        <option value="1405">1405</option>
-                        <option value="1406">1406</option>
+                        <?php foreach ($year_list as $key => $value): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($key == $active_year) ? 'selected' : ''; ?>><?php echo per_number($value); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -43,18 +40,9 @@
                         ماه:
                     </label>
                     <select name="month" class="form-select col-sm-3" aria-label="ماه" id="month-selector">
-                        <option value="1" selected>فروردین</option>
-                        <option value="2">اردیبهشت</option>
-                        <option value="3">خرداد</option>
-                        <option value="4">تیر</option>
-                        <option value="5">مرداد</option>
-                        <option value="6">شهریور</option>
-                        <option value="7">مهر</option>
-                        <option value="8">آبان</option>
-                        <option value="9">آذر</option>
-                        <option value="10">دی</option>
-                        <option value="11">بهمن</option>
-                        <option value="12">اسفند</option>
+                        <?php foreach ($month_list as $key => $value): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($key == $active_month) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>

@@ -26,9 +26,7 @@
             <select class="form-select" aria-label="ماه" name="month" id="month-selector" disabled>
                 <?php foreach ($month_list as $key => $value): ?>
                     <option value="<?php echo $key; ?>" <?php echo ($key == $active_month) ? 'selected' : ''; ?>><?php echo $value; ?></option>
-
                 <?php endforeach; ?>
-
             </select>
         </div>
 
