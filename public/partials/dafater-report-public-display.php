@@ -5,8 +5,12 @@
 
 <div class="container">
 
-    <h4>گزارش دهنده: <?php echo $user_name; ?></h4>
-    <h4>برای تاریخ: <?php echo $active_year,"/",$active_month; ?></h4>
+    <h4>گزارش دهنده:
+        <?php echo $user_name; ?>
+    </h4>
+    <h4>برای تاریخ:
+        <?php echo $active_year, "/", $active_month; ?>
+    </h4>
     <table id="dynamicTable" class="table table-bordered">
         <thead class="table-info">
             <tr>
@@ -20,22 +24,22 @@
         </thead>
         <tbody id="tableBody">
             <tr class="form-row">
-                <td scope="row">1</td>
+                <td class="table-index" scope="row">1</td>
                 <td>
-                    <select class="form-control" name="select[]">
+                    <select class="form-control" name="moamel[]">
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                         <option value="option3">Option 3</option>
                     </select>
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="input1[]" placeholder="متعامل">
+                    <input type="text" class="form-control" name="moteamel[]" placeholder="متعامل">
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="input2[]" placeholder="شماره سند">
+                    <input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="input3[]" placeholder="مبلغ به ریال">
+                    <input type="text" class="form-control" name="income[]" placeholder="مبلغ به ریال">
                 </td>
                 <td>
                     <button type="button" class="btn btn-success addRow" id="addRow">+</button>
@@ -43,6 +47,11 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="alert alert-info" role="alert">
+        مجموع مبلغ حق التحریر: <b id="total-income"> 0 </b> ریال
+    </div>
+
 </div>
 
 

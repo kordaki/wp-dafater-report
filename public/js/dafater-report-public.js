@@ -23,7 +23,7 @@ jQuery(document).ready(function () {
   $(document).on("click", ".addRow", function (el) {
     var newRow =
       '<tr class="form-row">' +
-      "<td>" +
+      "<td class='table-index'>" +
       ($("#tableBody").find("tr").length + 1) +
       "</td>" +
       "<td>" +
@@ -58,9 +58,17 @@ jQuery(document).ready(function () {
 
   $(document).on("click", ".deleteRow", function () {
     $(this).closest(".form-row").remove();
+
+    $(".table-index").each(function (index, element) {
+      $(element).text(index + 1);
+    });
   });
 
-  $('input[name^="input3"]').on("input", function (el) {
-    console.log(el.currentTarget.value);
+  $(document).on("input", "input[name^='input3']", function (el) {
+    let newValue = 0;
+    $("input[name^='input3']").each(function (index, element) {
+      newValue += Number(element.value);
+    });
+    $("#total-income").text(newValue);
   });
 });
