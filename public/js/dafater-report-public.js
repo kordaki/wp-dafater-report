@@ -63,6 +63,7 @@ jQuery(document).ready(function () {
     $(".table-index").each(function (index, element) {
       $(element).text(index + 1);
     });
+    calculateTotalIncome();
   });
 
   // calculate total income
