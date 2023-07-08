@@ -114,10 +114,6 @@ class Dafater_Report_Public
 			$this->plugin_name,
 			'dr_public',
 			array(
-				'confirm_text' => 'Are you sure?',
-				// 'cancel_text' => wp_get_current_user(),
-				'user_name' => $user->display_name,
-				'user_email' => $user->user_email,
 				'ajax_url' => admin_url('admin-ajax.php'),
 			)
 		);

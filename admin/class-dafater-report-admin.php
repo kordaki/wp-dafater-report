@@ -100,8 +100,6 @@ class Dafater_Report_Admin
 				$this->plugin_name,
 				'dr_public',
 				array(
-					'confirm_text' => 'Are you sure?',
-					'cancel_text' => 'Cancel',
 					'ajax_url' => admin_url('admin-ajax.php'),
 				)
 			);

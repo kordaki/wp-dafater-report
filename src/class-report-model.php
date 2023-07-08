@@ -98,9 +98,11 @@ class Report_Model
 				$user_id, $date
 			)
 		);
-		$persian_date_array = Helper_Date::get_persian_date_array($report->date);
-		$report->pYear = $persian_date_array['year'];
-		$report->pMonth = $persian_date_array['month'];
+		if($report){
+			$persian_date_array = Helper_Date::get_persian_date_array($report->date);
+			$report->pYear = $persian_date_array['year'];
+			$report->pMonth = $persian_date_array['month'];
+		}
 		return $report;
 	}
 
