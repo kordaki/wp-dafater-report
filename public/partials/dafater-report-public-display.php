@@ -11,6 +11,20 @@
     <h4>برای تاریخ:
         <?php echo $active_year, "/", $active_month; ?>
     </h4>
+
+    <div class="alert alert-warning" role="alert">
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="null-income" value="" id="null-income">
+            <label class="form-check-label" for="defaultCheck1">
+                بدون حق التحریر
+            </label>
+
+        </div>
+
+        در صورت عدم وجود حق التحریر، این گزارش را بدون مقدار درآمد ثبت کنید.
+    </div>
+
     <table id="dynamicTable" class="table table-bordered">
         <thead class="table-info">
             <tr>
@@ -47,6 +61,10 @@
             </tr>
         </tbody>
     </table>
+
+
+    <input type="hidden" name="year" value="<?php echo $active_year ?>">
+    <input type="hidden" name="month" value="<?php echo $active_month ?>">
 
     <div class="alert alert-info" role="alert">
         مجموع مبلغ حق التحریر: <b id="total-income"> 0 </b> ریال

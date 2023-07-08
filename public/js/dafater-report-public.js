@@ -27,20 +27,20 @@ jQuery(document).ready(function () {
       ($("#tableBody").find("tr").length + 1) +
       "</td>" +
       "<td>" +
-      '<select class="form-control" name="select[]">' +
+      '<select class="form-control" name="moamel[]">' +
       '<option value="option1">Option 1</option>' +
       '<option value="option2">Option 2</option>' +
       '<option value="option3">Option 3</option>' +
       "</select>" +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="input1[]" placeholder="متعامل">' +
+      '<input type="text" class="form-control" name="moteamel[]" placeholder="متعامل">' +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="input2[]" placeholder="شماره سند">' +
+      '<input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">' +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="input3[]" placeholder="مبلغ به ریال">' +
+      '<input type="text" class="form-control" name="income[]" placeholder="مبلغ به ریال">' +
       "</td>" +
       "<td>" +
       '<button type="button" class="btn btn-success addRow">+</button>' +
@@ -58,17 +58,31 @@ jQuery(document).ready(function () {
 
   $(document).on("click", ".deleteRow", function () {
     $(this).closest(".form-row").remove();
-
     $(".table-index").each(function (index, element) {
       $(element).text(index + 1);
     });
   });
 
-  $(document).on("input", "input[name^='input3']", function (el) {
+  // calculate total income
+  function calculateTotalIncome() {
     let newValue = 0;
-    $("input[name^='input3']").each(function (index, element) {
+    $("input[name^='income']").each(function (index, element) {
       newValue += Number(element.value);
     });
     $("#total-income").text(newValue);
+  }
+
+  $(document).on("input", "input[name^='income']", function (el) {
+    calculateTotalIncome();
+  });
+
+  $(document).on("click", "#null-income", function (el) {
+    if (el.currentTarget.checked) {
+      $("#total-income").text(0);
+      $("#dynamicTable").addClass("collapsed");
+    } else {
+      $("#dynamicTable").removeClass("collapsed");
+      calculateTotalIncome();
+    }
   });
 });
