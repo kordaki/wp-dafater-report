@@ -1,6 +1,59 @@
 <!-- <pre>
 <?php // print_r($data); ?>
 </pre> -->
+
+
+<div class="container">
+
+    <h4>گزارش دهنده: <?php echo $user_name; ?></h4>
+    <h4>برای تاریخ: <?php echo $active_year,"/",$active_month; ?></h4>
+    <table id="dynamicTable" class="table table-bordered">
+        <thead class="table-info">
+            <tr>
+                <th scope="col">ردیف</th>
+                <th>معامل</th>
+                <th>متعامل</th>
+                <th>شماره سند</th>
+                <th>مبلغ حق التحریر (ریال)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr class="form-row">
+                <td scope="row">1</td>
+                <td>
+                    <select class="form-control" name="select[]">
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="input1[]" placeholder="متعامل">
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="input2[]" placeholder="شماره سند">
+                </td>
+                <td>
+                    <input type="text" class="form-control" name="input3[]" placeholder="مبلغ به ریال">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success addRow" id="addRow">+</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
 <div class="container d-flex align-items-center justify-content-center">
     <form class="container" id="new-report-form">
         <div class="mb-3">
