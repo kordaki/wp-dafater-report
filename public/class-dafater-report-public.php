@@ -108,6 +108,7 @@ class Dafater_Report_Public
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/dafater-report-public.js', array('jquery'), $this->version, false);
 
 
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
 
 		$user = wp_get_current_user();
 		wp_localize_script(
@@ -115,6 +116,7 @@ class Dafater_Report_Public
 			'dr_public',
 			array(
 				'ajax_url' => admin_url('admin-ajax.php'),
+				'moamel_list' => Helper_Date::get_moamel_list(),
 			)
 		);
 
@@ -145,6 +147,7 @@ class Dafater_Report_Public
 		$active_year = $is_edit ? $report->pYear : Helper_Date::get_active_year();
 		$month_list = Helper_Date::get_month_list();
 		$year_list = Helper_Date::get_year_list();
+		$moamel_list = Helper_Date::get_moamel_list();
 		ob_start();
 		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
 		$template = ob_get_contents();

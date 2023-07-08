@@ -16,7 +16,7 @@ class Helper_Date
         $month = $date[0];
         return $month;
     }
-    
+
     public static function get_active_month()
     {
         $date = self::get_active_date();
@@ -70,7 +70,8 @@ class Helper_Date
         );
     }
 
-    public static function get_year_list(){
+    public static function get_year_list()
+    {
         return array(
             '1400' => '۱۴۰۰',
             '1401' => '۱۴۰۱',
@@ -96,6 +97,33 @@ class Helper_Date
     //     );
     //     return $month_list;
     // }
+
+    public static function get_moamel_list()
+    {
+        return array(
+            'بانک مسکن',
+            'بانک ملی',
+            'بانک سپه',
+            'بانک رفاه',
+            'بانک صنعت و معدن',
+            'بانک کشاورزی',
+            'پست بانک',
+            'بانک توسعه تعاون',
+            'شهرداری',
+            'مسکن و شهرسازی',
+            'انتقال اجرایی',
+            'دولت جمهوری اسلامی',
+            'شرکت نفت',
+            'بنیاد مسکن',
+            'وزارت علوم',
+            'سازمان جنگلها و مراتع',
+            'سازمان تاکسیرانی',
+            'جهاد کشاورزی',
+            'اداره اوقاف',
+            'صندوق مهر امام رضا',
+            'سایر',
+        );
+    }
 }
 
 ?>

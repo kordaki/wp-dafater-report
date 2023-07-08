@@ -41,9 +41,10 @@
                 <td class="table-index" scope="row">1</td>
                 <td>
                     <select class="form-control" name="moamel[]">
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                        <option value="" disabled selected>انتخاب کنید...</option>
+                        <?php foreach ($moamel_list as $moamel): ?>
+                            <option value="<?php echo $moamel; ?>"><?php echo $moamel; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </td>
                 <td>
