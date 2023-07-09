@@ -253,6 +253,66 @@ class Dafater_Report_Admin
 		), array("id" => $reportId));
 	}
 
+	function save_extra_user_field($user_id)
+	{
+		if (empty($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'update-user_' . $user_id)) {
+			return;
+		}
 
+		if (!current_user_can('edit_user', $user_id)) {
+			return false;
+		}
+
+		$territory = implode(',', $_POST['territory']);
+
+		update_user_meta($user_id, 'nahie', $_POST['nahie']);
+		update_user_meta($user_id, 'territory', $territory);
+	}
+
+
+	function extra_user_field($user)
+	{ ?>
+		<h3>
+			اطلاعات دفترخانه و کاربر مقسم
+		</h3>
+
+		<table class="form-table">
+			<tr>
+				<th><label for="address">
+						ناحیه
+					</label></th>
+				<td>
+					<select name="nahie" id="nahie" value="<?php echo esc_attr(get_the_author_meta('nahie', $user->ID)); ?>">
+						<?php for ($i = 1; $i < 20; $i++): ?>
+							<option value="<?php echo $i ?>" <?php if (esc_attr(get_the_author_meta('nahie', $user->ID)) == $i)
+								   echo ('selected') ?>>ناحیه <?php echo $i ?></option>
+						<?php endfor; ?>
+					</select><br />
+					<span class="description">
+						ناحیه شهرداری محل دفترخانه را انتخاب کنید
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="address">
+						مدیریت نواحی
+					</label></th>
+				<td>
+					<?php $territory = explode(',', esc_attr(get_the_author_meta('territory', $user->ID))); ?>
+					<select name="territory[]" multiple>
+						<?php for ($i = 1; $i < 20; $i++): ?>
+							<option value="<?php echo $i ?>" <?php if (in_array($i, $territory))
+								   echo 'selected' ?>>ناحیه <?php echo $i ?></option>
+						<?php endfor; ?>
+					</select>
+					<span class="description">
+						نواحی تحت پوشش کاربری مقسم را در این قسمت انتخاب کنید. </span> <br/>
+					<span class="description">
+						آخرین وضعیت: <?php foreach($territory as $item) {echo "ناحیه ". $item. ' / ';} ?> </span>
+				</td>
+			</tr>
+
+		</table>
+	<?php }
 
 }

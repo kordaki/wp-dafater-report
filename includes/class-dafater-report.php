@@ -27,7 +27,8 @@
  * @subpackage Dafater_Report/includes
  * @author     Pouriya Kordaki <pouriya.kordaki@gmail.com>
  */
-class Dafater_Report {
+class Dafater_Report
+{
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -66,8 +67,9 @@ class Dafater_Report {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
-		if ( defined( 'DAFATER_REPORT_VERSION' ) ) {
+	public function __construct()
+	{
+		if (defined('DAFATER_REPORT_VERSION')) {
 			$this->version = DAFATER_REPORT_VERSION;
 		} else {
 			$this->version = '1.0.0';
@@ -97,30 +99,31 @@ class Dafater_Report {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies()
+	{
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-dafater-report-loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-dafater-report-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-dafater-report-i18n.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-dafater-report-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-dafater-report-admin.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-dafater-report-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-dafater-report-public.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-dafater-report-public.php';
 
 		$this->loader = new Dafater_Report_Loader();
 
@@ -135,11 +138,12 @@ class Dafater_Report {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale()
+	{
 
 		$plugin_i18n = new Dafater_Report_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 
 	}
 
@@ -150,19 +154,28 @@ class Dafater_Report {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks()
+	{
 
-		$plugin_admin = new Dafater_Report_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Dafater_Report_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+
+		// add new field to user profile:
+		$this->loader->add_action('show_user_profile', $plugin_admin, 'extra_user_field');
+		$this->loader->add_action('edit_user_profile', $plugin_admin, 'extra_user_field');
+		// save the new field into database -> user_meta
+		$this->loader->add_action('personal_options_update', $plugin_admin, 'save_extra_user_field');
+		$this->loader->add_action('edit_user_profile_update', $plugin_admin, 'save_extra_user_field');
+
 
 		// add admin menu
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'report_menu' );
+		$this->loader->add_action('admin_menu', $plugin_admin, 'report_menu');
 
 
 		//action hook for ajax request
-		$this->loader->add_action( 'wp_ajax_admin_ajax_request', $plugin_admin, 'handle_ajax_request_admin' );
+		$this->loader->add_action('wp_ajax_admin_ajax_request', $plugin_admin, 'handle_ajax_request_admin');
 
 	}
 
@@ -173,18 +186,19 @@ class Dafater_Report {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks()
+	{
 
-		$plugin_public = new Dafater_Report_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Dafater_Report_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
-		$this->loader->add_filter('page_template', $plugin_public, 'report_page_template' );
-		add_shortcode('dafater-report-form', array( $plugin_public, 'render_dafater_report_form'));
+		$this->loader->add_filter('page_template', $plugin_public, 'report_page_template');
+		add_shortcode('dafater-report-form', array($plugin_public, 'render_dafater_report_form'));
 
 		//action hook for ajax request
-		$this->loader->add_action( 'wp_ajax_public_ajax_request', $plugin_public, 'handle_ajax_request_public' );
+		$this->loader->add_action('wp_ajax_public_ajax_request', $plugin_public, 'handle_ajax_request_public');
 
 	}
 
@@ -193,7 +207,8 @@ class Dafater_Report {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->loader->run();
 	}
 
@@ -204,7 +219,8 @@ class Dafater_Report {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name()
+	{
 		return $this->plugin_name;
 	}
 
@@ -214,7 +230,8 @@ class Dafater_Report {
 	 * @since     1.0.0
 	 * @return    Dafater_Report_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader()
+	{
 		return $this->loader;
 	}
 
@@ -224,7 +241,8 @@ class Dafater_Report {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version()
+	{
 		return $this->version;
 	}
 
