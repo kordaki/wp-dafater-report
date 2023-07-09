@@ -298,7 +298,12 @@ class Dafater_Report_Admin
 						مدیریت نواحی
 					</label></th>
 				<td>
-					<?php $territory = explode(',', esc_attr(get_the_author_meta('territory', $user->ID))); ?>
+					<?php if (isset($user->ID)) {
+						$territory = explode(',', esc_attr(get_the_author_meta('territory', $user->ID)));
+					} else {
+						$territory = array();
+					}
+					; ?>
 					<select name="territory[]" multiple>
 						<?php for ($i = 1; $i < 20; $i++): ?>
 							<option value="<?php echo $i ?>" <?php if (in_array($i, $territory))
@@ -306,9 +311,13 @@ class Dafater_Report_Admin
 						<?php endfor; ?>
 					</select>
 					<span class="description">
-						نواحی تحت پوشش کاربری مقسم را در این قسمت انتخاب کنید. </span> <br/>
+						نواحی تحت پوشش کاربری مقسم را در این قسمت انتخاب کنید. </span> <br />
 					<span class="description">
-						آخرین وضعیت: <?php foreach($territory as $item) {echo "ناحیه ". $item. ' / ';} ?> </span>
+						آخرین وضعیت:
+						<?php foreach ($territory as $item) {
+							echo "ناحیه " . $item . ' / ';
+						} ?>
+					</span>
 				</td>
 			</tr>
 

@@ -165,6 +165,7 @@ class Dafater_Report
 		// add new field to user profile:
 		$this->loader->add_action('show_user_profile', $plugin_admin, 'extra_user_field');
 		$this->loader->add_action('edit_user_profile', $plugin_admin, 'extra_user_field');
+		$this->loader->add_action('user_new_form', $plugin_admin, 'extra_user_field');
 		// save the new field into database -> user_meta
 		$this->loader->add_action('personal_options_update', $plugin_admin, 'save_extra_user_field');
 		$this->loader->add_action('edit_user_profile_update', $plugin_admin, 'save_extra_user_field');
