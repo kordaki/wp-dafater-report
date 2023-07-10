@@ -109,10 +109,10 @@ class Dafater_Report_Admin
 	public function report_menu()
 	{
 		// main menu
-		add_menu_page("گزارش کار دفاتر", "گزارش کار دفاتر", "manage_options", "dafater-report-list", array($this, "dafater_report_list"), "dashicons-clipboard", 21);
+		add_menu_page("گزارش کار دفاتر", "گزارش کار دفاتر", "edit_posts", "dafater-report-list", array($this, "dafater_report_list"), "dashicons-clipboard", 21);
 
 		// submenus
-		add_submenu_page("dafater-report-list", "گزارش دفاتر", "گزارش ها", "manage_options", "dafater-report-list", array($this, "dafater_report_list"));
+		add_submenu_page("dafater-report-list", "گزارش دفاتر", "گزارش ها", "edit_posts", "dafater-report-list", array($this, "dafater_report_list"));
 		add_submenu_page("dafater-report-list", "تنظیمات گزارش ها", "تنظیمات", "manage_options", "dafater-report-setting", array($this, "dafater_report_setting"));
 	}
 
@@ -263,10 +263,7 @@ class Dafater_Report_Admin
 			return false;
 		}
 
-		$territory = implode(',', $_POST['territory']);
-
-		update_user_meta($user_id, 'nahie', $_POST['nahie']);
-		update_user_meta($user_id, 'territory', $territory);
+		update_user_meta($user_id, 'moghasem', $_POST['moghasem']);
 	}
 
 
@@ -279,47 +276,24 @@ class Dafater_Report_Admin
 		<table class="form-table">
 			<tr>
 				<th><label for="address">
-						ناحیه
+						مقسم
 					</label></th>
 				<td>
-					<select name="nahie" id="nahie" value="<?php echo esc_attr(get_the_author_meta('nahie', $user->ID)); ?>">
-						<?php for ($i = 1; $i < 20; $i++): ?>
-							<option value="<?php echo $i ?>" <?php if (esc_attr(get_the_author_meta('nahie', $user->ID)) == $i)
-								   echo ('selected') ?>>ناحیه <?php echo $i ?></option>
+					<select name="moghasem" id="moghasem"
+						value="<?php echo esc_attr(get_the_author_meta('moghasem', $user->ID)); ?>">
+						<option value="0" <?php if (!isset($user->ID))
+							echo ('selected') ?> disabled>انتخاب کنید ...</option>
+						<?php for ($i = 1; $i <= 21; $i++): ?>
+							<option value="<?php echo $i ?>" <?php if (esc_attr(get_the_author_meta('moghasem', $user->ID)) == $i)
+								   echo ('selected') ?>>مقسم <?php echo $i ?></option>
 						<?php endfor; ?>
 					</select><br />
 					<span class="description">
-						ناحیه شهرداری محل دفترخانه را انتخاب کنید
+						مقسم مرتبط با کاربر را انتخاب کنید.
 					</span>
 				</td>
 			</tr>
-			<tr>
-				<th><label for="address">
-						مدیریت نواحی
-					</label></th>
-				<td>
-					<?php if (isset($user->ID)) {
-						$territory = explode(',', esc_attr(get_the_author_meta('territory', $user->ID)));
-					} else {
-						$territory = array();
-					}
-					; ?>
-					<select name="territory[]" multiple>
-						<?php for ($i = 1; $i < 20; $i++): ?>
-							<option value="<?php echo $i ?>" <?php if (in_array($i, $territory))
-								   echo 'selected' ?>>ناحیه <?php echo $i ?></option>
-						<?php endfor; ?>
-					</select>
-					<span class="description">
-						نواحی تحت پوشش کاربری مقسم را در این قسمت انتخاب کنید. </span> <br />
-					<span class="description">
-						آخرین وضعیت:
-						<?php foreach ($territory as $item) {
-							echo "ناحیه " . $item . ' / ';
-						} ?>
-					</span>
-				</td>
-			</tr>
+
 
 		</table>
 	<?php }
