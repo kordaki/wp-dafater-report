@@ -33,6 +33,12 @@ class Helper_Date
         return gregdate('Y-m-d', $active_date, $lang = 'eng');
     }
 
+    public static function shamsi_to_europe_date($year, $month, $day = '01')
+    {
+        $date = $year . ' ' . $month . ' ' . $day;
+        return gregdate('Y-m-d', $date, $lang = 'eng');
+    }
+
 
     // to read from db
     public static function get_persian_date($date)

@@ -26,11 +26,12 @@ class Report_Model
 
 		// check if user table exist
 		if ($wpdb->get_var("SHOW TABLES LIKE $report_tbl") != $report_tbl) {
-			$charset_collate = "ENGINE=InnoDB DEFAULT CHARSET=latin1";
+			$charset_collate = "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 			$table_query = "CREATE TABLE $report_tbl (
 				id bigint(11) NOT NULL AUTO_INCREMENT,
 				user_id bigint(20) unsigned NOT NULL,
-				income bigint(20) NOT NULL,
+				totalIncome bigint(20) NOT NULL,
+				reports text NOT NULL,
 				date date DEFAULT NULL,
 				created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				updated_at datetime DEFAULT NULL,
@@ -58,7 +59,8 @@ class Report_Model
 			$wpdb->prepare(
 				"SELECT 
 					{$report_tbl}.id, 
-					{$report_tbl}.income, 
+					{$report_tbl}.totalIncome, 
+					{$report_tbl}.reports, 
 					{$report_tbl}.date, 
 					{$report_tbl}.created_at, 
 					{$report_tbl}.updated_at, 
@@ -106,7 +108,7 @@ class Report_Model
 		return $report;
 	}
 
-	public static function add_report($user_id, $date, $income)
+	public static function add_report($user_id, $date, $totalIncome, $reports)
 	{
 		global $wpdb;
 		$table_name = self::name();
@@ -114,8 +116,9 @@ class Report_Model
 			$table_name,
 			array(
 				"user_id" => $user_id,
-				"income" => $income,
-				"date" => $date
+				"totalIncome" => $totalIncome,
+				"date" => $date,
+				"reports" => $reports
 			)
 		);
 	}

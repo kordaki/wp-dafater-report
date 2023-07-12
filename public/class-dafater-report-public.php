@@ -182,6 +182,7 @@ class Dafater_Report_Public
 		$isNullIncome = $request['nullIncome'];
 		$user_id = get_current_user_id();
 
+		$totalIncome = 0;
 		$reportList = array();
 
 		if (isset($isNullIncome)) {
@@ -199,27 +200,30 @@ class Dafater_Report_Public
 					"documentNumber" => $documentNumber[$key],
 					"income" => $income[$key],
 				);
+				$totalIncome += (float)$income[$key];
 				array_push($reportList, $lineReport);
 			}
 		}
 
+		$reports= serialize($reportList);
 
-		// require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
-		// $active_date_europe = Helper_Date::get_active_date_europe();
+		$year = $request['year'];
+		$month = $request['month'];
 
-		// require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
-		// Report_Model::add_report($user_id, $active_date_europe, $income);
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		$europe_date = Helper_Date::shamsi_to_europe_date($year, $month);
 
-		// $response = array("status" => 200, "message" => "success", "data" => array("report" => $income, "date" => $active_date_europe, "user_id" => $user_id));
-		// $response = array("status" => 200, "message" => "success", "data" => array("report" => $request, "date" => $isNullIncome, "user_id" => $user_id));
-		$response = array("status" => 200, "message" => "success", "data" => array("report" => $isNullIncome, "date" => $reportList, "user_id" => $user_id));
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
+		Report_Model::add_report($user_id, $europe_date, $totalIncome, $reports);
+		
+		$response = array("status" => 200, "message" => "success", "data" => array("report" => $reportList, "date" => $europe_date, "user_id" => $user_id));
 
 		echo json_encode($response);
 	}
 
 	public function update_user_report($request)
 	{
-		$response = array("status" => 200, "message" => "success222", "data" => array("report" => $request));
+		$response = array("status" => 200, "message" => "success", "data" => array("report" => $request));
 		echo json_encode($response);
 	}
 }
