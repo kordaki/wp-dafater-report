@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
   var $ = jQuery;
   const ajax_url = dr_public.ajax_url;
-  const moamel_list = dr_public.moamel_list;
+  const moteamel_list = dr_public.moteamel_list;
 
   // on submit new-report-form
   $("#new-report-form").on("submit", function (e) {
@@ -28,21 +28,21 @@ jQuery(document).ready(function () {
       ($("#tableBody").find("tr").length + 1) +
       "</td>" +
       "<td>" +
-      '<select class="form-control" name="moamel[]">' +
-      '<option value="" disabled selected>انتخاب کنید...</option>' +
-      moamel_list
-        .map((moamel) => `<option value="${moamel}">${moamel}</option>`)
-        .join("") +
-      "</select>" +
+      '<input type="text" class="form-control" name="moamel[]" placeholder="معامل">' +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="moteamel[]" placeholder="متعامل">' +
+      '<select class="form-control" name="moteamel[]">' +
+      '<option value="" disabled selected>انتخاب کنید...</option>' +
+      moteamel_list
+        .map((moteamel) => `<option value="${moteamel}">${moteamel}</option>`)
+        .join("") +
+      "</select>" +
       "</td>" +
       "<td>" +
       '<input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">' +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="income[]" placeholder="مبلغ به ریال">' +
+      '<input type="number" class="form-control" name="income[]" placeholder="مبلغ به ریال">' +
       "</td>" +
       "<td>" +
       '<button type="button" class="btn btn-success addRow">+</button>' +

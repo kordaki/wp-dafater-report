@@ -98,7 +98,7 @@ class Helper_Date
     //     return $month_list;
     // }
 
-    public static function get_moamel_list()
+    public static function get_moteamel_list()
     {
         return array(
             'بانک مسکن',

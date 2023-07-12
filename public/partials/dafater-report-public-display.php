@@ -16,7 +16,7 @@
 
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="null-income" value="" id="null-income">
-            <label class="form-check-label" for="defaultCheck1">
+            <label class="form-check-label" for="null-income">
                 بدون حق التحریر
             </label>
 
@@ -40,21 +40,22 @@
             <tr class="form-row">
                 <td class="table-index" scope="row">1</td>
                 <td>
-                    <select class="form-control" name="moamel[]">
+                    <input type="text" class="form-control" name="moamel[]" placeholder="معامل" required>
+
+                </td>
+                <td>
+                    <select class="form-control" name="moteamel[]" required>
                         <option value="" disabled selected>انتخاب کنید...</option>
-                        <?php foreach ($moamel_list as $moamel): ?>
-                            <option value="<?php echo $moamel; ?>"><?php echo $moamel; ?></option>
+                        <?php foreach ($moteamel_list as $moteamel): ?>
+                            <option value="<?php echo $moteamel; ?>"><?php echo $moteamel; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="moteamel[]" placeholder="متعامل">
+                    <input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند" required>
                 </td>
                 <td>
-                    <input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="income[]" placeholder="مبلغ به ریال">
+                    <input type="number" class="form-control" name="income[]" placeholder="مبلغ به ریال" required>
                 </td>
                 <td>
                     <button type="button" class="btn btn-success addRow" id="addRow">+</button>

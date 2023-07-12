@@ -116,7 +116,7 @@ class Dafater_Report_Public
 			'dr_public',
 			array(
 				'ajax_url' => admin_url('admin-ajax.php'),
-				'moamel_list' => Helper_Date::get_moamel_list(),
+				'moteamel_list' => Helper_Date::get_moteamel_list(),
 			)
 		);
 
@@ -147,7 +147,7 @@ class Dafater_Report_Public
 		$active_year = $is_edit ? $report->pYear : Helper_Date::get_active_year();
 		$month_list = Helper_Date::get_month_list();
 		$year_list = Helper_Date::get_year_list();
-		$moamel_list = Helper_Date::get_moamel_list();
+		$moteamel_list = Helper_Date::get_moteamel_list();
 		ob_start();
 		include_once DAFATER_REPORT_PLUGIN_PATH . 'public/partials/dafater-report-public-display.php';
 		$template = ob_get_contents();
