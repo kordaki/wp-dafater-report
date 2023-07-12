@@ -143,7 +143,7 @@ class Dafater_Report_Public
 		// $data = $report;
 
 		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
-		$active_month = $is_edit? $report->pMonth : Helper_Date::get_active_month();
+		$active_month = $is_edit ? $report->pMonth : Helper_Date::get_active_month();
 		$active_year = $is_edit ? $report->pYear : Helper_Date::get_active_year();
 		$month_list = Helper_Date::get_month_list();
 		$year_list = Helper_Date::get_year_list();
@@ -179,16 +179,40 @@ class Dafater_Report_Public
 
 	public function add_user_report($request)
 	{
-		$income = $request['income'];
+		$isNullIncome = $request['nullIncome'];
 		$user_id = get_current_user_id();
 
-		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
-		$active_date_europe = Helper_Date::get_active_date_europe();
+		$reportList = array();
 
-		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
-		Report_Model::add_report($user_id, $active_date_europe, $income);
+		if (isset($isNullIncome)) {
+			// this month was without income
+		} else {
+			$moamel = $request['moamel'];
+			$moteamel = $request['moteamel'];
+			$documentNumber = $request['documentNumber'];
+			$income = $request['income'];
 
-		$response = array("status" => 200, "message" => "success", "data" => array("report" => $income, "date" => $active_date_europe, "user_id" => $user_id));
+			foreach ($income as $key => $row) {
+				$lineReport = array(
+					"moamel" => $moamel[$key],
+					"moteamel" => $moteamel[$key],
+					"documentNumber" => $documentNumber[$key],
+					"income" => $income[$key],
+				);
+				array_push($reportList, $lineReport);
+			}
+		}
+
+
+		// require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		// $active_date_europe = Helper_Date::get_active_date_europe();
+
+		// require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
+		// Report_Model::add_report($user_id, $active_date_europe, $income);
+
+		// $response = array("status" => 200, "message" => "success", "data" => array("report" => $income, "date" => $active_date_europe, "user_id" => $user_id));
+		// $response = array("status" => 200, "message" => "success", "data" => array("report" => $request, "date" => $isNullIncome, "user_id" => $user_id));
+		$response = array("status" => 200, "message" => "success", "data" => array("report" => $isNullIncome, "date" => $reportList, "user_id" => $user_id));
 
 		echo json_encode($response);
 	}

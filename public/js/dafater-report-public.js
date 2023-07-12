@@ -6,16 +6,25 @@ jQuery(document).ready(function () {
   // on submit new-report-form
   $("#new-report-form").on("submit", function (e) {
     e.preventDefault();
+    const formDataObject = {};
+    $("#new-report-form")
+      .serializeArray()
+      .map(function (x) {
+        formDataObject[x.name] = x.value;
+      });
+
     const formData = $("#new-report-form").serialize();
-    const postData = "action=public_ajax_request&" + formData;
+    const postData =
+      "action=public_ajax_request&target=da_add_report&" + formData;
     console.log("----- formData:", formData);
 
     $.post(ajax_url, postData, function (response) {
       const data = JSON.parse(response).data;
+      console.log("----- data:", data);
       if (!!data && data.report) {
         const report = data.report;
-        alert("گزارش عملکرد شما با موفقیت ثبت شد.");
-        window.location.reload();
+        // alert("گزارش عملکرد شما با موفقیت ثبت شد.");
+        // window.location.reload();
         console.log(report);
       }
     });
