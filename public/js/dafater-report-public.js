@@ -48,7 +48,7 @@ jQuery(document).ready(function () {
       "</select>" +
       "</td>" +
       "<td>" +
-      '<input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">' +
+      '<input type="number" class="form-control" name="documentNumber[]" placeholder="شماره سند">' +
       "</td>" +
       "<td>" +
       '<input type="number" class="form-control" name="income[]" placeholder="مبلغ به ریال">' +

@@ -1,5 +1,6 @@
 <pre>
-<?php // print_r(home_url()); ?>
+<?php // print_r($user); ?>
+<?php // print_r(get_user_meta($user->ID)); ?>
 </pre>
 
 <div class="container">
@@ -53,7 +54,7 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" class="form-control" name="documentNumber[]" placeholder="شماره سند">
+                            <input type="number" class="form-control" name="documentNumber[]" placeholder="شماره سند">
                         </td>
                         <td>
                             <input type="number" class="form-control" name="income[]" placeholder="مبلغ به ریال">
@@ -85,3 +86,4 @@
         </div>
     <?php } ?>
 </div>
+<br /><br /><br /><br /><br />
