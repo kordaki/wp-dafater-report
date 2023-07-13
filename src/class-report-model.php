@@ -72,7 +72,7 @@ class Report_Model
 				FROM ($report_tbl LEFT JOIN {$wpdb->users} ON {$report_tbl}.user_id = {$wpdb->users}.id)
 				WHERE {$report_tbl}.deleted_at is NULL AND {$report_tbl}.date = %s 
 			",
-				$date,
+				$date
 			)
 		);
 

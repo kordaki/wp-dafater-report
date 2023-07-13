@@ -120,7 +120,8 @@ class Dafater_Report_Admin
 	{
 		global $wpdb;
 		$user = wp_get_current_user();
-		$moghasem = get_user_meta($user->ID, 'moghasem')[0];
+		$moghasem = get_user_meta($user->ID, 'moghasem');
+		$moghasem = empty($moghasem) ? null : $moghasem[0];
 
 		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
 		$active_month = Helper_Date::get_active_month();
