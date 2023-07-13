@@ -118,29 +118,9 @@ class Dafater_Report_Admin
 
 	public function dafater_report_list()
 	{
-		// get users list from database
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'users';
-		$users = $wpdb->get_results("SELECT * FROM $table_name");
-
-
-		// select table from database
-		$report_table = $wpdb->prefix . 'dafater_report';
-		$report_tbl = $wpdb->get_var("SHOW TABLES LIKE $report_table");
-
-		// $reports = $wpdb->get_results( "SELECT * FROM '{$wpdb->prefix}'posts where post_name='dafater_report-14'" );
-
-		// $post_tbl = $wpdb->prefix . 'posts';
-		// $page_data = $wpdb->get_results(
-		// 	$wpdb->prepare( "SELECT * from $post_tbl where post_name LIKE %s", "dafater_report_page%")
-		// );
-
-
-		// print('<pre dir="ltr" style="text-align:left;">');
-		// print_r($table_query);
-		// print("</pre>");
-
-		// echo "<h3>Report List page :X </h3>";
+		$user = wp_get_current_user();
+		$moghasem = get_user_meta($user->ID, 'moghasem')[0];
 
 		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
 		$active_month = Helper_Date::get_active_month();
@@ -150,15 +130,17 @@ class Dafater_Report_Admin
 
 
 		require_once plugin_dir_path(__FILE__) . '../src/class-report-model.php';
-		$year = "1402";
-		$month = "2";
 		$report_model = new Report_Model;
-		$reports = $report_model->get_reports($year, $month);
+		$reports = $report_model->get_reports($active_year, $active_month, $moghasem);
 
-		ob_start();
+		// echo "<pre>";
+		// print_r($reports);
+		// echo "</pre>";
+
+		// ob_start();
 		include_once plugin_dir_path(__FILE__) . 'partials/dafater-report-list.php';
 		$setting_page = ob_get_clean();
-		ob_end_clean();
+		// ob_end_clean();
 		echo $setting_page;
 
 	}

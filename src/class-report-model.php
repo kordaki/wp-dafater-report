@@ -46,7 +46,7 @@ class Report_Model
 		;
 	}
 
-	public function get_reports($year, $month)
+	public function get_reports($year, $month, $moghasem)
 	{
 		global $wpdb;
 		$report_tbl = $this::name();
@@ -54,7 +54,10 @@ class Report_Model
 		// get_var
 		// get_row
 		// get_column
+		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-helper-date.php';
+		$date = Helper_Date::shamsi_to_europe_date($year, $month);
 
+		
 		$reports = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT 
@@ -67,14 +70,11 @@ class Report_Model
 					{$wpdb->users}.display_name, 
 					{$wpdb->users}.user_email
 				FROM ($report_tbl LEFT JOIN {$wpdb->users} ON {$report_tbl}.user_id = {$wpdb->users}.id)
-				WHERE {$report_tbl}.deleted_at is NULL
-			"
+				WHERE {$report_tbl}.deleted_at is NULL AND {$report_tbl}.date = %s 
+			",
+				$date,
 			)
 		);
-
-		// $reports = $wpdb->get_results(
-		// 	$wpdb->prepare("SELECT * FROM $table_name WHERE date is lower than %d", $date)
-		// );
 
 		// sanitizing data
 		foreach ($reports as $key => $value) {
@@ -97,10 +97,11 @@ class Report_Model
 		$report = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM $table_name WHERE user_id = %d AND date = %s AND deleted_at is NULL",
-				$user_id, $date
+				$user_id,
+				$date
 			)
 		);
-		if($report){
+		if ($report) {
 			$persian_date_array = Helper_Date::get_persian_date_array($report->date);
 			$report->pYear = $persian_date_array['year'];
 			$report->pMonth = $persian_date_array['month'];

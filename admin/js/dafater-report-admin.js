@@ -21,7 +21,7 @@ jQuery(document).ready(function () {
       { title: "ردیف", data: null },
       { title: "دفترخانه", data: "display_name" },
       { title: "ماه", data: "pdate" },
-      { title: "درآمد", data: "income" },
+      { title: "درآمد", data: "totalIncome" },
       { title: "تاریخ ایجاد", data: "pcreated_at" },
     ],
     // paging: false,

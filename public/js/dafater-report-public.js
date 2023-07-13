@@ -23,8 +23,8 @@ jQuery(document).ready(function () {
       console.log("----- data:", data);
       if (!!data && data.report) {
         const report = data.report;
-        // alert("گزارش عملکرد شما با موفقیت ثبت شد.");
-        // window.location.reload();
+        alert("گزارش عملکرد شما با موفقیت ثبت شد.");
+        window.location.reload();
         console.log(report);
       }
     });

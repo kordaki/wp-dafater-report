@@ -72,7 +72,7 @@
                     echo "<td>" . $report->id . "</td>";
                     echo "<td>" . $report->display_name . "</td>";
                     echo "<td>" . $report->pdate . "</td>";
-                    echo "<td>" . $report->income . "</td>";
+                    echo "<td>" . $report->totalIncome . "</td>";
                     echo "<td>" . $report->pcreated_at . "</td>";
                     echo "</tr>";
                 }

@@ -1,6 +1,6 @@
 <pre>
 <?php // print_r($user); ?>
-<?php // print_r(get_user_meta($user->ID)); ?>
+<?php // print_r(get_user_meta($user->ID, 'moghasem')); ?>
 </pre>
 
 <div class="container">
