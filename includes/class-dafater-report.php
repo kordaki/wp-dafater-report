@@ -179,28 +179,44 @@ class Dafater_Report
 		$this->loader->add_action('wp_ajax_admin_ajax_request', $plugin_admin, 'handle_ajax_request_admin');
 
 		// add new roles
-		add_role('moghasem', 'مقسم', array(
-			'read' => true,
-			'edit_posts' => true,
-			'delete_posts' => true,
-			'moderate_comments' => false,
-			'manage_options' => true,
-			'edit_theme_options'=>false,
-			'install_plugins' => false,
-			'update_plugin' => false,
-			'update_core' => false,
-			'edit_users' => false,
-		));
-		add_role('daftarkhane', 'دفترخانه', array(
-			'read' => true,
-			'edit_posts' => false,
-			'delete_posts' => false,
-			'moderate_comments'=>false,
-			'install_plugins' => false,
-			'update_plugin' => false,
-			'update_core' => false,
-			'Capability' => 'Subscriber'
-		));
+		add_role(
+			'moghasem',
+			'مقسم',
+			array(
+				'read' => true,
+				'edit_posts' => true,
+				'delete_posts' => true,
+				'moderate_comments' => false,
+				'manage_options' => true,
+				'edit_theme_options' => false,
+				'install_plugins' => false,
+				'update_plugin' => false,
+				'update_core' => false,
+				'edit_users' => false,
+			)
+		);
+		add_role(
+			'daftarkhane',
+			'دفترخانه',
+			array(
+				'read' => true,
+				'edit_posts' => false,
+				'delete_posts' => false,
+				'moderate_comments' => false,
+				'install_plugins' => false,
+				'update_plugin' => false,
+				'update_core' => false,
+				'Capability' => 'Subscriber'
+			)
+		);
+
+
+		function custom_login_redirect()
+		{
+			return home_url() . '//dafater_report_page/';
+		}
+		add_filter('login_redirect', 'custom_login_redirect');
+
 
 	}
 
