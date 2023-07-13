@@ -30,13 +30,13 @@ class Helper_Date
     public static function get_active_date_europe()
     {
         $active_date = self::get_active_date();
-        return gregdate('Y-m-d', $active_date, $lang = 'eng');
+        return gregdate('Y-m-d', $active_date);
     }
 
     public static function shamsi_to_europe_date($year, $month, $day = '01')
     {
         $date = $year . ' ' . $month . ' ' . $day;
-        return gregdate('Y-m-d', $date, $lang = 'eng');
+        return gregdate('Y-m-d', $date);
     }
 
 

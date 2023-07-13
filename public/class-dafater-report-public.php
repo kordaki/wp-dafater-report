@@ -134,6 +134,7 @@ class Dafater_Report_Public
 	public function render_dafater_report_form()
 	{
 		$user = wp_get_current_user();
+		$isUserLoggedIn = is_user_logged_in();
 		$user_name = $user->display_name;
 
 		require_once DAFATER_REPORT_PLUGIN_PATH . 'src/class-report-model.php';
