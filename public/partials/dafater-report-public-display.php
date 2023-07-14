@@ -14,6 +14,26 @@
                 <?php echo $active_year, "/", $active_month; ?>
             </h4>
 
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="year-selector" class="form-label">سال :</label>
+                    <select class="form-select" aria-label="سال" name="year" id="year-selector">
+                        <?php foreach ($year_list as $key => $value): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($key == $active_year) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col mb-3">
+                    <label for="month-selector" class="form-label">ماه :</label>
+                    <select class="form-select" aria-label="ماه" name="month" id="month-selector">
+                        <option value="0" disabled>انتخاب کنید...</option>
+                        <?php foreach ($month_list as $key => $value): ?>
+                            <option value="<?php echo $key; ?>" <?php echo ($key == $active_month) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
             <div class="alert alert-warning" role="alert">
 
                 <div class="form-check">
@@ -67,9 +87,6 @@
             </table>
 
 
-            <input type="hidden" name="year" value="<?php echo $active_year ?>">
-            <input type="hidden" name="month" value="<?php echo $active_month ?>">
-
             <div class="alert alert-info" role="alert">
                 مجموع مبلغ حق التحریر: <b id="total-income"> 0 </b> ریال
             </div>
@@ -82,7 +99,7 @@
     <?php } else { ?>
         <div class="d-grid gap-2 col-6 mx-auto">
             برای ثبت گزارش، ابتدا وارد سایت شوید.
-            <a href="<?php echo(home_url()); ?>/wp-admin" class="btn btn-primary" role="button">ورود</a>
+            <a href="<?php echo (home_url()); ?>/wp-admin" class="btn btn-primary" role="button">ورود</a>
         </div>
     <?php } ?>
 </div>

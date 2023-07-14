@@ -78,17 +78,10 @@ class Helper_Date
 
     public static function get_year_list()
     {
-        return array(
-            '1400' => '۱۴۰۰',
-            '1401' => '۱۴۰۱',
-            '1402' => '۱۴۰۲',
-            '1403' => '۱۴۰۳',
-            '1404' => '۱۴۰۴',
-            '1405' => '۱۴۰۵',
-            '1406' => '۱۴۰۶',
-            '1407' => '۱۴۰۷',
-            '1408' => '۱۴۰۸',
-        );
+        $years = array();
+        for($i = 1395; $i <= self::get_active_year(); $i++) {
+            $years[$i] = per_number($i);
+        }
     }
 
     // public static function get_active_month_list()
